@@ -15,7 +15,7 @@ def get_corpora(corpora_name):
 
 def write_intro(item):
     rules = {
-        "introduction": "For years the corridor remained unexplored, until it was found out, that it held the precious #item#, from them on, countless adventurers ventured into the depths of the corridor, looking fame and fortune. ",
+        "introduction": "For years the corridor remained unexplored, until it was found out, that it held the precious #item#, from them on, countless adventurers ventured into the depths of the corridor, looking for fame and fortune. ",
         "item": item,
     }
     return get_str_from_rules(rules, "#introduction#")
