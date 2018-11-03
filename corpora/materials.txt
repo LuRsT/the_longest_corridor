@@ -1,0 +1,4 @@
+iron
+steel
+copper
+bronze

@@ -9,7 +9,7 @@ def get_str_from_rules(rules, part):
 
 
 def get_corpora(corpora_name):
-    with open(f'corpora/{corpora_name}.txt', 'r') as corpora_file:
+    with open(f"corpora/{corpora_name}.txt", "r") as corpora_file:
         return [n.strip() for n in corpora_file.readlines()]
 
 
@@ -24,8 +24,8 @@ def write_intro(item):
 def create_item():
     rules = {
         "item": "#type# of #material#",
-        "material": ['bronze', 'iron', 'stone', 'quartz'],
-        "type": get_corpora('objects'),
+        "material": get_corpora("materials"),
+        "type": get_corpora("objects"),
     }
     return get_str_from_rules(rules, "#item#")
 
