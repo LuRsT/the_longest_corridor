@@ -45,4 +45,6 @@ MITHRIL = Material("Mithril", 1, 8)
 
 SWORD = Weapon("Sword", [IRON], D4)
 HALBERD = Weapon("Halberd", [IRON], difficulty_modifier=4, damage_modifier=D6)
-MAGIC_SWORD = Weapon("Magic Sword", [MITHRIL], difficulty_modifier=4, damage_modifier=D6)
+MAGIC_SWORD = Weapon(
+    "Magic Sword", [MITHRIL], difficulty_modifier=4, damage_modifier=D6
+)
