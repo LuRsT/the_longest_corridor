@@ -8,7 +8,7 @@ from dragn.dice import *
 class Material:
     name: str
     difficulty_modifier: int
-    damage_modifier: Any
+    damage_modifier: int
 
 
 @dataclass
@@ -30,10 +30,10 @@ class Weapon:
         damage = 0
         for m in self.materials:
             damage += m.damage_modifier
-        return damage() + self.damage_modifier
+        return damage + self.damage_modifier
 
 
-IRON = Material("Iron", 2, D6)
+IRON = Material("Iron", 2, 2)
 
 SWORD = Weapon("Sword", [IRON])
 HALBERD = Weapon("Halberd", [IRON], difficulty_modifier=4, damage_modifier=2)
