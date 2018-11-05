@@ -1,7 +1,8 @@
-from dataclasses import dataclass
 from typing import Any, List
 
 from dragn.dice import *
+
+from dataclasses import dataclass
 
 
 @dataclass

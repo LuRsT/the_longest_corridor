@@ -1,7 +1,6 @@
-from dataclasses import dataclass
-
 from dragn.dice import D20
 
+from dataclasses import dataclass
 from models.weapons import Weapon
 
 
@@ -13,7 +12,6 @@ class Character:
     health: int
     armor: int
     dex: int
-    race: str
 
     @property
     def is_alive(self):
