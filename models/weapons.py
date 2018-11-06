@@ -16,36 +16,41 @@ class Material:
 
 
 @dataclass
-class Weapon:
-    kind: str
-    materials: List[Material]
+class WeaponKind:
+    name: str
     damage_modifier: Any
     difficulty_modifier: int = 0
 
+    def __str__(self) -> str:
+        return self.name
+
+
+@dataclass
+class Weapon:
+    kind: WeaponKind
+    material: Material
+
     @property
     def difficulty(self) -> int:
-        difficulty = 0
-        for m in self.materials:
-            difficulty += m.difficulty_modifier
-        return difficulty + self.difficulty_modifier
+        return self.material.difficulty_modifier + self.kind.difficulty_modifier
 
     @property
     def damage(self) -> int:
-        damage = 0
-        for m in self.materials:
-            damage += m.damage_modifier
-        return damage + self.damage_modifier()
+        return self.material.damage_modifier + self.kind.damage_modifier()
 
     def __str__(self) -> str:
-        return f"{self.kind} made of {self.materials[0]}"
+        return f"{self.material} {self.kind}"
 
 
 IRON = Material("Iron", 2, 2)
 STEEL = Material("Steel", 3, 4)
 MITHRIL = Material("Mithril", 1, 8)
 
-SWORD = Weapon("Sword", [IRON], D4)
-HALBERD = Weapon("Halberd", [IRON], difficulty_modifier=4, damage_modifier=D6)
-MAGIC_SWORD = Weapon(
-    "Magic Sword", [MITHRIL], difficulty_modifier=4, damage_modifier=D6
-)
+SWORD = WeaponKind("Sword", D4, 1)
+HALBERD = WeaponKind("Halberd", D6, 4)
+
+WEAPONS = {
+    'sword': Weapon(SWORD, IRON),
+    'halberd': Weapon(HALBERD, IRON),
+    'magic_sword': Weapon(SWORD, MITHRIL),
+}

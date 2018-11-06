@@ -21,7 +21,7 @@ class Character:
 
     def attack(self, other):
         if self.dex + D20() > other.armor:
-            print(f"{self.race} hits {other.race} with their {self.weapon.kind}")
+            print(f"{self.race} hits {other.race} with their {self.weapon}")
             other.health -= self.weapon.damage
         else:
             print(f"{self.race} fails to hit {other.race}")

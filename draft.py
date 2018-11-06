@@ -3,7 +3,7 @@ from tracery.modifiers import base_english
 
 from combat import fight
 from models.characters import Character
-from models.weapons import HALBERD, MAGIC_SWORD, SWORD
+from models.weapons import WEAPONS
 
 
 def get_str_from_rules(rules, part):
@@ -35,13 +35,14 @@ def create_item():
 
 
 def create_corridor():
-    monsters = [Character("Ulfric", "Orc", SWORD, 10, 10, 10) for _ in range(5)]
+    monsters = [Character("Ulfric", "Orc", WEAPONS['sword'], 10, 10, 10) for _ in range(5)]
 
-    return [*monsters]
+    corridor_history = "The corridor was created by a God who laid out some creatures"
+    return [*monsters], corridor_history
 
 
 def create_character():
-    return Character("Arnold", "Human", MAGIC_SWORD, 10, 10, 10)
+    return Character("Arnold", "Human", WEAPONS['magic_sword'], 10, 10, 10)
 
 
 def run_corridor(corridor):
@@ -51,13 +52,14 @@ def run_corridor(corridor):
         challenge = corridor.pop()
 
         if isinstance(challenge, Character):
-            character, challenge = fight(character, challenge)
+            enemy = challenge
+            character, enemy = fight(character, enemy)
 
             if not character.is_alive:
                 print(f"{character.name} dies")
                 break
             else:
-                print(f"{challenge.name} dies")
+                print(f"{enemy.name} dies")
                 print(f"{character.name} sighs in relief and continues...")
 
 
@@ -66,6 +68,7 @@ def main():
     This is a draft structure for the book generator
 
     Intro
+    Corridor Creation
     One Chapter per adventurer until someone gets to the end or a limit of runs is reached
     Epilogue
     """
@@ -73,7 +76,9 @@ def main():
     item = f"'{create_item()}'"
     print(write_intro(item))
 
-    corridor = create_corridor()
+    corridor, corridor_history = create_corridor()
+    print(corridor_history)
+
     print(run_corridor(corridor))
 
 
