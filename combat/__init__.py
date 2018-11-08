@@ -24,10 +24,3 @@ def fight(char1, char2):
         attacker, defender = defender, attacker
 
     return char1, char2
-
-
-if __name__ == "__main__":
-    simulate_fight(
-        Character("A", "Human", WEAPONS["sword"], 30, 10, 10),
-        Character("B", "Orc", WEAPONS["halberd"], 10, 10, 10),
-    )
