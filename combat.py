@@ -1,5 +1,3 @@
-from dragn.dice import D4, D6, D20
-
 from models.characters import Character
 from models.weapons import WEAPONS
 
@@ -30,6 +28,6 @@ def fight(char1, char2):
 
 if __name__ == "__main__":
     simulate_fight(
-        Character("A", "Human", WEAPONS['sword'], 30, 10, 10),
-        Character("B", "Orc", WEAPONS['halberd'], 10, 10, 10),
+        Character("A", "Human", WEAPONS["sword"], 30, 10, 10),
+        Character("B", "Orc", WEAPONS["halberd"], 10, 10, 10),
     )

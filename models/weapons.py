@@ -50,7 +50,7 @@ SWORD = WeaponKind("Sword", D4, 1)
 HALBERD = WeaponKind("Halberd", D6, 4)
 
 WEAPONS = {
-    'sword': Weapon(SWORD, IRON),
-    'halberd': Weapon(HALBERD, IRON),
-    'magic_sword': Weapon(SWORD, MITHRIL),
+    "sword": Weapon(SWORD, IRON),
+    "halberd": Weapon(HALBERD, IRON),
+    "magic_sword": Weapon(SWORD, MITHRIL),
 }
