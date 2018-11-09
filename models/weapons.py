@@ -47,10 +47,8 @@ STEEL = Material("Steel", 3, 4)
 MITHRIL = Material("Mithril", 1, 8)
 
 SWORD = WeaponKind("Sword", D4, 1)
+GREATSWORD = WeaponKind("Greatsword", D20, 6)
+MACE = WeaponKind("Mace", D12, 4)
 HALBERD = WeaponKind("Halberd", D6, 4)
 
-WEAPONS = {
-    "sword": Weapon(SWORD, IRON),
-    "halberd": Weapon(HALBERD, IRON),
-    "magic_sword": Weapon(SWORD, MITHRIL),
-}
+NORMAL_WEAPONS = (Weapon(SWORD, IRON), Weapon(HALBERD, IRON), Weapon(SWORD, IRON))

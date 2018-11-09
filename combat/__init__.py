@@ -1,5 +1,4 @@
 from models.characters import Character
-from models.weapons import WEAPONS
 
 
 def simulate_fight(char1, char2):
@@ -22,5 +21,11 @@ def fight(char1, char2):
     while char1.is_alive and char2.is_alive:
         attacker.attack(defender)
         attacker, defender = defender, attacker
+
+    if char1.is_alive:
+        char1.gain_exp(char2)
+
+    if char2.is_alive:
+        char2.gain_exp(char1)
 
     return char1, char2

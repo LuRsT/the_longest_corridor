@@ -2,8 +2,9 @@ import random
 
 from combat import fight
 from models.characters import Character
+from models.corridor import Corridor
 from models.items import Item
-from models.weapons import WEAPONS
+from models.weapons import NORMAL_WEAPONS
 from text import get_corpora, get_str_from_rules
 
 
@@ -15,47 +16,27 @@ def intro(item):
     return get_str_from_rules(rules, "#introduction#")
 
 
-def create_item():
-    return Item(
-        random.choice(get_corpora("objects")), random.choice(get_corpora("materials"))
-    )
-
-
 def create_character():
     return Character(
         random.choice(get_corpora("first_names")),
         "Human",
-        WEAPONS["magic_sword"],
-        10,
+        random.choice(NORMAL_WEAPONS),
+        20,
         10,
         10,
     )
-
-
-def create_enemy():
-    return Character(
-        random.choice(get_corpora("enemy_names")), "Orc", WEAPONS["sword"], 10, 10, 10
-    )
-
-
-def create_corridor(item):
-    monsters = [create_enemy() for _ in range(5)]
-
-    corridor = [*monsters, item]
-    corridor_history = "The corridor was created by a God who laid out some creatures"
-    return corridor[::-1], corridor_history
 
 
 def run_corridor(corridor):
-    for _ in range(10):
+    for chapter in range(10):
         character = create_character()
 
-        while len(corridor) > 0:
+        print(f"\n\nChapter #{chapter} ({character.name})\n")
+
+        for challenge in corridor:
             print(
                 f"{character.name} slowly steps into the dark corridor to start their walk..."
             )
-
-            challenge = corridor.pop()
 
             if isinstance(challenge, Character):
                 enemy = challenge
@@ -74,6 +55,8 @@ def run_corridor(corridor):
 
             else:
                 print("nothing happened :(")
+
+        corridor.shuffle()
 
 
 def epilogue(result):
@@ -94,13 +77,16 @@ def main():
     Epilogue
     """
 
-    item = create_item()
-    print(intro(item))
+    corridor = Corridor()
 
-    corridor, corridor_history = create_corridor(item)
-    print(corridor_history)
+    print(intro(corridor.item))
+    print()
+
+    print(corridor.get_history())
+    print()
 
     result = run_corridor(corridor)
+    print()
 
     epilogue(result)
 
