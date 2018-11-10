@@ -3,7 +3,7 @@ import random
 from models.characters import GOBLIN, OGRE, ORC, Character
 from models.items import Food, Item
 from models.weapons import NORMAL_WEAPONS
-from text import get_corpora, get_str_from_rules
+from text import get_str_from_rules, get_word_from_corpora
 
 
 class Corridor:
@@ -48,28 +48,24 @@ def create_enemy():
 
 
 def create_orc():
-    return Character(
-        random.choice(get_corpora("enemy_names")), ORC, random.choice(NORMAL_WEAPONS)
-    )
+    return Character(create_enemy_name(), ORC, random.choice(NORMAL_WEAPONS))
 
 
 def create_ogre():
-    return Character(
-        random.choice(get_corpora("enemy_names")), OGRE, random.choice(NORMAL_WEAPONS)
-    )
+    return Character(create_enemy_name(), OGRE, random.choice(NORMAL_WEAPONS))
 
 
 def create_goblin():
-    return Character(
-        random.choice(get_corpora("enemy_names")), GOBLIN, random.choice(NORMAL_WEAPONS)
-    )
+    return Character(create_enemy_name(), GOBLIN, random.choice(NORMAL_WEAPONS))
+
+
+def create_enemy_name():
+    return get_word_from_corpora("enemy_names")
 
 
 def create_item():
-    return Item(
-        random.choice(get_corpora("objects")), random.choice(get_corpora("materials"))
-    )
+    return Item(get_word_from_corpora("objects"), get_word_from_corpora("materials"))
 
 
 def create_food():
-    return Food(random.choice(get_corpora("food")), random.randint(1, 30))
+    return Food(get_word_from_corpora("food"), random.randint(1, 30))

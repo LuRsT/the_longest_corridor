@@ -48,7 +48,7 @@ class Character:
 
     @property
     def value(self):
-        return 5
+        return (self.exp * self.level) + self.dex + self._original_health + self.armor
 
     def gain_exp(self, other):
         self.exp += other.value

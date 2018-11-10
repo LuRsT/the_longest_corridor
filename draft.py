@@ -5,7 +5,7 @@ from models.characters import DWARF, ELF, HUMAN, Character
 from models.corridor import Corridor
 from models.items import Food, Item
 from models.weapons import NORMAL_WEAPONS
-from text import get_corpora, get_str_from_rules
+from text import get_str_from_rules, get_word_from_corpora
 
 
 def intro(item):
@@ -23,19 +23,19 @@ def create_adventurer():
 
 def create_elf():
     return Character(
-        random.choice(get_corpora("first_names")), ELF, random.choice(NORMAL_WEAPONS)
+        get_word_from_corpora("first_names"), ELF, random.choice(NORMAL_WEAPONS)
     )
 
 
 def create_human():
     return Character(
-        random.choice(get_corpora("first_names")), HUMAN, random.choice(NORMAL_WEAPONS)
+        get_word_from_corpora("first_names"), HUMAN, random.choice(NORMAL_WEAPONS)
     )
 
 
 def create_dwarf():
     return Character(
-        random.choice(get_corpora("first_names")), DWARF, random.choice(NORMAL_WEAPONS)
+        get_word_from_corpora("first_names"), DWARF, random.choice(NORMAL_WEAPONS)
     )
 
 
