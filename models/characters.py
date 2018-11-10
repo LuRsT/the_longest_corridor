@@ -41,10 +41,10 @@ class Character:
 
     def attack(self, other):
         if self.dex + D20() > other.armor:
-            print(f"{self.name} {self.weapon.hit_str} {other.name}")
+            print(f"{self.name} {self.weapon.hit_str} {other.name}\n")
             other.health -= self.weapon.damage
         else:
-            print(f"{self.name} misses")
+            print(f"{self.name} misses\n")
 
     @property
     def value(self):
@@ -55,7 +55,7 @@ class Character:
         self.maybe_level_up()
 
     def maybe_level_up(self):
-        lvl_by_xp = {2: 10, 3: 50, 4: 100, 5: 250}
+        lvl_by_xp = {2: 50, 3: 100, 4: 200, 5: 400}
         for lvl, xp in lvl_by_xp.items():
             if self.level >= lvl:
                 continue
@@ -69,11 +69,11 @@ class Character:
         self.dex += 1
         self.armor += 1
         self.health += 5
-        print(f"{self.name} feels stronger")
+        print(f"{self.name} feels stronger\n")
 
     def intro(self):
         print(
-            f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves."
+            f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves.\n\n"
         )
 
     def eat(self, food):

@@ -43,53 +43,53 @@ def run_corridor(corridor):
     for chapter in range(10):
         character = create_adventurer()
 
-        print(f"\n\nChapter #{chapter} ({character.name})\n")
+        print(f"\n\n## Chapter #{chapter} ({character.name})\n")
 
         character.intro()
 
-        for challenge in corridor:
-            print(
-                f"{character.name} slowly steps into the dark corridor to start their walk..."
-            )
+        print(f"{character.name} slowly steps into the dark corridor to start their walk...\n")
 
+        for challenge in corridor:
             if isinstance(challenge, Character):
                 enemy = challenge
+                print(f"{character.name} finds {enemy.name}, a {enemy.race} and get's ready for a fight.\n")
 
                 character, enemy = fight(character, enemy)
 
                 if not character.is_alive:
-                    print(f"{character.name} dies")
+                    print(f"{character.name} dies\n")
                     corridor.add_item(character.weapon)
                     break
                 else:
-                    print(f"{enemy.name} dies")
-                    print(f"{character.name} sighs in relief and continues...")
+                    print(f"{enemy.name} dies\n")
+                    print(f"{character.name} sighs in relief and continues...\n")
 
             elif isinstance(challenge, Item):
-                print(f"{character.name} picks up the '{challenge}' triumphantly")
-                print(character)
+                print(f"{character.name} picks up the '{challenge}' triumphantly\n")
                 return True
 
             elif isinstance(challenge, Food):
-                print(f"{character.name} finds a {challenge} and gobbles it down.")
+                print(f"{character.name} finds a {challenge} and gobbles it down.\n")
                 character.eat(challenge)
 
             elif isinstance(challenge, Weapon):
-                print(f"{character.name} finds a {challenge} and equips it")
+                print(f"{character.name} finds a {challenge} and equips it.\n")
                 character.equip(challenge)
 
             else:
-                print("nothing happened :(")
+                print("nothing happened :(\n")
+
+            print(f"{character.name} takes a few more steps in the dark corridor\n")
 
         corridor.shuffle()
 
 
 def epilogue(result):
     if result:
-        print("The corridor started crumbling and was reduced to dust")
+        print("\nThe corridor started crumbling and was reduced to dust\n")
 
     else:
-        print("The corridor remained unbeaten")
+        print("\nThe corridor remained unbeaten\n")
 
 
 def main():
@@ -104,18 +104,22 @@ def main():
 
     corridor = Corridor()
 
+    print("\n## Introduction\n")
     print(intro(corridor.item))
     print()
 
+    print("\n## The corridor\n")
     print(corridor.get_history())
     print()
 
     result = run_corridor(corridor)
     print()
 
+    print("## Epilogue\n")
     epilogue(result)
 
-    corridor.stats()
+    # print("## Appendix\n\n")
+    # corridor.stats()
 
 
 if __name__ == "__main__":

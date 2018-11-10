@@ -31,9 +31,6 @@ class Corridor:
         corridor_history = f"The corridor was created by a God who laid out some creatures, a bit of food, and finally, left the {self.item}"
         return corridor_history
 
-    # def get_corridor(self):
-    #    return self.corridor[::-1]
-
     def __iter__(self):
         return self
 
