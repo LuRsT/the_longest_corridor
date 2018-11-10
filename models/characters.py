@@ -11,6 +11,9 @@ class Race:
     armor: int
     dex: int
 
+    def __str__(self):
+        return self.name
+
 
 @dataclass
 class Character:
@@ -66,6 +69,12 @@ class Character:
         self.dex += 1
         self.armor += 1
         self.health += 5
+        print(f"{self.name} feels stronger")
+
+    def intro(self):
+        print(
+            f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves."
+        )
 
     def eat(self, food):
         self.health += food.amount
@@ -85,3 +94,4 @@ ELF = Race("Dwarf", 18, 8, 13)
 
 ORC = Race("Orc", 10, 10, 10)
 GOBLIN = Race("Goblin", 5, 8, 13)
+OGRE = Race("Ogre", 30, 14, 7)
