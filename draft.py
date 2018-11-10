@@ -1,7 +1,7 @@
 import random
 
 from combat import fight
-from models.characters import Character
+from models.characters import DWARF, ELF, HUMAN, Character
 from models.corridor import Corridor
 from models.items import Item
 from models.weapons import NORMAL_WEAPONS
@@ -16,20 +16,32 @@ def intro(item):
     return get_str_from_rules(rules, "#introduction#")
 
 
-def create_character():
+def create_adventurer():
+    creator = random.choice([create_dwarf, create_human, create_elf])
+    return creator()
+
+
+def create_elf():
     return Character(
-        random.choice(get_corpora("first_names")),
-        "Human",
-        random.choice(NORMAL_WEAPONS),
-        20,
-        10,
-        10,
+        random.choice(get_corpora("first_names")), ELF, random.choice(NORMAL_WEAPONS)
+    )
+
+
+def create_human():
+    return Character(
+        random.choice(get_corpora("first_names")), HUMAN, random.choice(NORMAL_WEAPONS)
+    )
+
+
+def create_dwarf():
+    return Character(
+        random.choice(get_corpora("first_names")), DWARF, random.choice(NORMAL_WEAPONS)
     )
 
 
 def run_corridor(corridor):
     for chapter in range(10):
-        character = create_character()
+        character = create_adventurer()
 
         print(f"\n\nChapter #{chapter} ({character.name})\n")
 
@@ -40,6 +52,7 @@ def run_corridor(corridor):
 
             if isinstance(challenge, Character):
                 enemy = challenge
+
                 character, enemy = fight(character, enemy)
 
                 if not character.is_alive:

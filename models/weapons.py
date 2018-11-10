@@ -1,3 +1,4 @@
+import random
 from typing import Any, List
 
 from dragn.dice import *
@@ -19,7 +20,8 @@ class Material:
 class WeaponKind:
     name: str
     damage_modifier: Any
-    difficulty_modifier: int = 0
+    difficulty_modifier: int
+    hit_choices: List[str]
 
     def __str__(self) -> str:
         return self.name
@@ -41,14 +43,18 @@ class Weapon:
     def __str__(self) -> str:
         return f"{self.material} {self.kind}"
 
+    @property
+    def hit_str(self):
+        return random.choice(self.kind.hit_choices)
+
 
 IRON = Material("Iron", 2, 2)
 STEEL = Material("Steel", 3, 4)
 MITHRIL = Material("Mithril", 1, 8)
 
-SWORD = WeaponKind("Sword", D4, 1)
-GREATSWORD = WeaponKind("Greatsword", D20, 6)
-MACE = WeaponKind("Mace", D12, 4)
-HALBERD = WeaponKind("Halberd", D6, 4)
+SWORD = WeaponKind("Sword", D4, 1, ["slashes"])
+GREATSWORD = WeaponKind("Greatsword", D20, 6, ["slashes"])
+MACE = WeaponKind("Mace", D12, 4, ["whacks"])
+HALBERD = WeaponKind("Halberd", D6, 4, ["slices"])
 
 NORMAL_WEAPONS = (Weapon(SWORD, IRON), Weapon(HALBERD, IRON), Weapon(SWORD, IRON))

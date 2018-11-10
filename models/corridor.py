@@ -1,6 +1,6 @@
 import random
 
-from models.characters import Character
+from models.characters import ORC, Character
 from models.items import Item
 from models.weapons import NORMAL_WEAPONS
 from text import get_corpora, get_str_from_rules
@@ -40,12 +40,7 @@ class Corridor:
 
 def create_enemy():
     return Character(
-        random.choice(get_corpora("enemy_names")),
-        "Orc",
-        random.choice(NORMAL_WEAPONS),
-        10,
-        10,
-        10,
+        random.choice(get_corpora("enemy_names")), ORC, random.choice(NORMAL_WEAPONS)
     )
 
 
