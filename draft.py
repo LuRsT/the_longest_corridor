@@ -4,7 +4,7 @@ from combat import fight
 from models.characters import DWARF, ELF, HUMAN, Character
 from models.corridor import Corridor
 from models.items import Food, Item
-from models.weapons import NORMAL_WEAPONS
+from models.weapons import IRON_WEAPONS, Weapon
 from text import get_str_from_rules, get_word_from_corpora
 
 
@@ -23,19 +23,19 @@ def create_adventurer():
 
 def create_elf():
     return Character(
-        get_word_from_corpora("first_names"), ELF, random.choice(NORMAL_WEAPONS)
+        get_word_from_corpora("first_names"), ELF, random.choice(IRON_WEAPONS)
     )
 
 
 def create_human():
     return Character(
-        get_word_from_corpora("first_names"), HUMAN, random.choice(NORMAL_WEAPONS)
+        get_word_from_corpora("first_names"), HUMAN, random.choice(IRON_WEAPONS)
     )
 
 
 def create_dwarf():
     return Character(
-        get_word_from_corpora("first_names"), DWARF, random.choice(NORMAL_WEAPONS)
+        get_word_from_corpora("first_names"), DWARF, random.choice(IRON_WEAPONS)
     )
 
 
@@ -71,6 +71,10 @@ def run_corridor(corridor):
             elif isinstance(challenge, Food):
                 print(f"{character.name} finds a {challenge} and gobbles it down.")
                 character.eat(challenge)
+
+            elif isinstance(challenge, Weapon):
+                print(f"{character.name} finds a {challenge} and equips it")
+                character.equip(challenge)
 
             else:
                 print("nothing happened :(")

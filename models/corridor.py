@@ -2,7 +2,7 @@ import random
 
 from models.characters import GOBLIN, OGRE, ORC, Character
 from models.items import Food, Item
-from models.weapons import NORMAL_WEAPONS
+from models.weapons import IRON_WEAPONS, MITHRIL_WEAPONS
 from text import get_str_from_rules, get_word_from_corpora
 
 
@@ -12,8 +12,9 @@ class Corridor:
 
         monsters = [create_enemy() for _ in range(15)]
         food = [create_food() for _ in range(3)]
+        treasure = [random.choice(MITHRIL_WEAPONS)]
 
-        stuff_in_corridor = [*monsters, *food]
+        stuff_in_corridor = [*monsters, *food, *treasure]
         random.shuffle(stuff_in_corridor)
 
         self.corridor = [*stuff_in_corridor, self.item][::-1]
@@ -48,15 +49,15 @@ def create_enemy():
 
 
 def create_orc():
-    return Character(create_enemy_name(), ORC, random.choice(NORMAL_WEAPONS))
+    return Character(create_enemy_name(), ORC, random.choice(IRON_WEAPONS))
 
 
 def create_ogre():
-    return Character(create_enemy_name(), OGRE, random.choice(NORMAL_WEAPONS))
+    return Character(create_enemy_name(), OGRE, random.choice(IRON_WEAPONS))
 
 
 def create_goblin():
-    return Character(create_enemy_name(), GOBLIN, random.choice(NORMAL_WEAPONS))
+    return Character(create_enemy_name(), GOBLIN, random.choice(IRON_WEAPONS))
 
 
 def create_enemy_name():

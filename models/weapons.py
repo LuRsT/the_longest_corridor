@@ -57,4 +57,21 @@ GREATSWORD = WeaponKind("Greatsword", D20, 6, ["slashes"])
 MACE = WeaponKind("Mace", D12, 4, ["whacks"])
 HALBERD = WeaponKind("Halberd", D6, 4, ["slices"])
 
-NORMAL_WEAPONS = (Weapon(SWORD, IRON), Weapon(HALBERD, IRON), Weapon(SWORD, IRON))
+IRON_WEAPONS = (
+    Weapon(SWORD, IRON),
+    Weapon(HALBERD, IRON),
+    Weapon(SWORD, IRON),
+    Weapon(GREATSWORD, IRON),
+)
+STEEL_WEAPONS = (
+    Weapon(SWORD, STEEL),
+    Weapon(HALBERD, STEEL),
+    Weapon(SWORD, STEEL),
+    Weapon(GREATSWORD, STEEL),
+)
+MITHRIL_WEAPONS = (
+    Weapon(SWORD, MITHRIL),
+    Weapon(HALBERD, MITHRIL),
+    Weapon(SWORD, MITHRIL),
+    Weapon(GREATSWORD, MITHRIL),
+)

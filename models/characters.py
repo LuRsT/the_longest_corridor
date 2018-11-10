@@ -79,6 +79,9 @@ class Character:
     def eat(self, food):
         self.health += food.amount
 
+    def equip(self, weapon: Weapon):
+        self.weapon = weapon
+
     @property
     def stats(self):
         print(
