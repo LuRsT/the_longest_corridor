@@ -3,7 +3,7 @@ import random
 from combat import fight
 from models.characters import DWARF, ELF, HUMAN, Character
 from models.corridor import Corridor
-from models.items import Item
+from models.items import Item, Food
 from models.weapons import NORMAL_WEAPONS
 from text import get_corpora, get_str_from_rules
 
@@ -65,6 +65,10 @@ def run_corridor(corridor):
             elif isinstance(challenge, Item):
                 print(f"{character.name} picks up the '{challenge}' triumphantly")
                 return True
+
+            elif isinstance(challenge, Food):
+                print(f"{character.name} finds a {challenge} and gobbles it down.")
+                character.eat(challenge)
 
             else:
                 print("nothing happened :(")

@@ -67,6 +67,9 @@ class Character:
         self.armor += 1
         self.health += 5
 
+    def eat(self, food):
+        self.health += food.amount
+
     @property
     def stats(self):
         print(
@@ -81,3 +84,4 @@ DWARF = Race("Dwarf", 25, 12, 9)
 ELF = Race("Dwarf", 18, 8, 13)
 
 ORC = Race("Orc", 10, 10, 10)
+GOBLIN = Race("Goblin", 5, 8, 13)
