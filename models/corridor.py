@@ -10,15 +10,22 @@ class Corridor:
     def __init__(self):
         self.item = create_item()
 
+        self.initial_creation()
+        self.reset()
+        self.index = len(self.corridor)
+
+    def initial_creation(self):
         monsters = [create_enemy() for _ in range(15)]
         food = [create_food() for _ in range(3)]
         treasure = [random.choice(MITHRIL_WEAPONS)]
+        self.stuff_in_corridor = [*monsters, *food, *treasure]
 
-        stuff_in_corridor = [*monsters, *food, *treasure]
-        random.shuffle(stuff_in_corridor)
+    def reset(self):
+        random.shuffle(self.stuff_in_corridor)
+        self.corridor = [*self.stuff_in_corridor, self.item][::-1]
 
-        self.corridor = [*stuff_in_corridor, self.item][::-1]
-        self.index = len(self.corridor)
+    def add_item(self, item):
+        self.stuff_in_corridor.append(item)
 
     def get_history(self):
         corridor_history = f"The corridor was created by a God who laid out some creatures, a bit of food, and finally, left the {self.item}"
@@ -37,10 +44,17 @@ class Corridor:
         return self.corridor[self.index]
 
     def shuffle(self):
-        for c in self.corridor:
+        for c in self.stuff_in_corridor:
             if isinstance(c, Character):
                 c.resurrect()
         self.index = len(self.corridor)
+
+        self.reset()
+
+    def stats(self):
+        print("The corridor contains:\n")
+        for c in self.stuff_in_corridor:
+            print(c)
 
 
 def create_enemy():

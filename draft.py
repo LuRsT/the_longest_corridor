@@ -59,6 +59,7 @@ def run_corridor(corridor):
 
                 if not character.is_alive:
                     print(f"{character.name} dies")
+                    corridor.add_item(character.weapon)
                     break
                 else:
                     print(f"{enemy.name} dies")
@@ -66,6 +67,7 @@ def run_corridor(corridor):
 
             elif isinstance(challenge, Item):
                 print(f"{character.name} picks up the '{challenge}' triumphantly")
+                print(character)
                 return True
 
             elif isinstance(challenge, Food):
@@ -112,6 +114,8 @@ def main():
     print()
 
     epilogue(result)
+
+    corridor.stats()
 
 
 if __name__ == "__main__":

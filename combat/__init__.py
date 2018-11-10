@@ -24,8 +24,9 @@ def fight(char1, char2):
 
     if char1.is_alive:
         char1.gain_exp(char2)
-
-    if char2.is_alive:
+        char1.weapon.register_kill(char2)
+    elif char2.is_alive:
         char2.gain_exp(char1)
+        char2.weapon.register_kill(char1)
 
     return char1, char2
