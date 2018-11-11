@@ -24,7 +24,7 @@ class Corridor:
         random.shuffle(self.stuff_in_corridor)
         self.corridor = [*self.stuff_in_corridor, self.item][::-1]
 
-    def add_item(self, item):
+    def add_to_corridor(self, item):
         self.stuff_in_corridor.append(item)
 
     def get_history(self):

@@ -43,7 +43,7 @@ def run_corridor(corridor):
     for chapter in range(10):
         character = create_adventurer()
 
-        print(f"\n\n## Chapter #{chapter} ({character.name})\n")
+        print(f"\n\n# Chapter #{chapter} ({character.name})\n")
 
         character.intro()
 
@@ -115,7 +115,7 @@ def main():
     result = run_corridor(corridor)
     print()
 
-    print("## Epilogue\n")
+    print("\n## Epilogue\n")
     epilogue(result)
 
     # print("## Appendix\n\n")
