@@ -83,11 +83,15 @@ def deal_with_challenge(challenge, character, corridor):
                     f"{character.name} is not worthy for the corridor. Three goblins get spawned in their place."
                 )
                 corridor.add_to_corridor(create_goblin(character.weapon))
-                corridor.add_to_corridor(create_goblin())
-                corridor.add_to_corridor(create_goblin())
+                corridor.add_to_corridor(create_goblin(random.choice(IRON_WEAPONS)))
+                corridor.add_to_corridor(create_goblin(random.choice(IRON_WEAPONS)))
         else:
             messages.append(f"{enemy.name} dies\n")
-            messages.append(f"{character.name} sighs in relief and continues...\n")
+            equiped = character.loot(enemy.weapon)
+            if equiped:
+                messages.append(
+                    f"{character.name} equips {character.weapon} from the corpse"
+                )
 
     elif isinstance(challenge, Item):
         messages.append(f"{character.name} picks up the '{challenge}' triumphantly\n")

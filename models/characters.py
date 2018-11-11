@@ -112,45 +112,36 @@ OGRE = Race("Ogre", 30, 14, 7)
 
 def create_adventurer():
     creator = random.choice([_create_dwarf, _create_human, _create_elf])
-    return creator()
+    return creator(random.choice(IRON_WEAPONS))
 
 
-def _create_elf():
-    return Character(
-        get_word_from_corpora("first_names"), ELF, random.choice(IRON_WEAPONS)
-    )
+def _create_elf(weapon):
+    return Character(get_word_from_corpora("first_names"), ELF, weapon)
 
 
-def _create_human():
-    return Character(
-        get_word_from_corpora("first_names"), HUMAN, random.choice(IRON_WEAPONS)
-    )
+def _create_human(weapon):
+    return Character(get_word_from_corpora("first_names"), HUMAN, weapon)
 
 
-def _create_dwarf():
-    return Character(
-        get_word_from_corpora("first_names"), DWARF, random.choice(IRON_WEAPONS)
-    )
+def _create_dwarf(weapon):
+    return Character(get_word_from_corpora("first_names"), DWARF, weapon)
 
 
 def create_enemy():
     enemy = random.choice([_create_orc, create_goblin, _create_ogre])
-    return enemy()
+    return enemy(random.choice(IRON_WEAPONS))
 
 
-def _create_orc():
-    return Character(create_enemy_name(), ORC, random.choice(IRON_WEAPONS))
+def _create_orc(weapon):
+    return Character(create_enemy_name(), ORC, weapon)
 
 
-def _create_ogre():
-    return Character(create_enemy_name(), OGRE, random.choice(IRON_WEAPONS))
+def _create_ogre(weapon):
+    return Character(create_enemy_name(), OGRE, weapon)
 
 
-def create_goblin(weapon=None):
-    if weapon:
-        return Character(create_enemy_name(), GOBLIN, weapon)
-    else:
-        return Character(create_enemy_name(), GOBLIN, random.choice(IRON_WEAPONS))
+def create_goblin(weapon):
+    return Character(create_enemy_name(), GOBLIN, weapon)
 
 
 def create_enemy_name():

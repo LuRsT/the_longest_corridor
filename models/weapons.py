@@ -65,7 +65,9 @@ class Weapon:
 
     @property
     def value(self):
-        return self.material.damage_modifier + self.kind.damage_modifier.max_value
+        return (self.material.damage_modifier + self.kind.damage_modifier.max_value) - (
+            self.kind.difficulty_modifier + self.material.difficulty_modifier
+        )
 
 
 IRON = Material("Iron", 2, 2)

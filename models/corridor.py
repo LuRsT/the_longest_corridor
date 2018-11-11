@@ -64,7 +64,7 @@ class Corridor:
             if isinstance(c, Character):
                 messages.append(c.stats)
             else:
-                messages.append(c)
+                messages.append(str(c) + "\n")
 
         return messages
 
