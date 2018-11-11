@@ -4,7 +4,6 @@ import tracery
 from tracery.modifiers import base_english
 
 from combat import fight
-from models.characters import DWARF, ELF, HUMAN, Character
 from models.items import Food, Item
 from models.weapons import IRON_WEAPONS, Weapon
 
@@ -32,81 +31,70 @@ def intro(item):
     return get_str_from_rules(rules, "#introduction#")
 
 
-def create_adventurer():
-    creator = random.choice([create_dwarf, create_human, create_elf])
-    return creator()
-
-
-def create_elf():
-    return Character(
-        get_word_from_corpora("first_names"), ELF, random.choice(IRON_WEAPONS)
-    )
-
-
-def create_human():
-    return Character(
-        get_word_from_corpora("first_names"), HUMAN, random.choice(IRON_WEAPONS)
-    )
-
-
-def create_dwarf():
-    return Character(
-        get_word_from_corpora("first_names"), DWARF, random.choice(IRON_WEAPONS)
-    )
-
-
 def run_corridor(corridor):
+    from models.characters import create_adventurer
+
+    messages = []
     for chapter in range(10):
         character = create_adventurer()
 
-        print(f"\n\n# Chapter #{chapter} ({character.name})\n")
+        messages.append(f"\n\n# Chapter #{chapter} ({character.name})\n")
 
-        character.intro()
+        messages.append(character.intro())
 
-        print(
+        messages.append(
             f"{character.name} slowly steps into the dark corridor to start their walk...\n"
         )
 
         for challenge in corridor:
-            if isinstance(challenge, Character):
-                enemy = challenge
-                print(
-                    f"{character.name} finds {enemy.name}, a {enemy.race} and get's ready for a fight.\n"
-                )
-
-                character, enemy = fight(character, enemy)
-
-                if not character.is_alive:
-                    print(f"{character.name} dies\n")
-                    corridor.add_to_corridor(character)
-                    break
-                else:
-                    print(f"{enemy.name} dies\n")
-                    print(f"{character.name} sighs in relief and continues...\n")
-
-            elif isinstance(challenge, Item):
-                print(f"{character.name} picks up the '{challenge}' triumphantly\n")
-                return True
-
-            elif isinstance(challenge, Food):
-                print(f"{character.name} finds a {challenge} and gobbles it down.\n")
-                character.eat(challenge)
-
-            elif isinstance(challenge, Weapon):
-                print(f"{character.name} finds a {challenge} and equips it.\n")
-                character.equip(challenge)
-
-            else:
-                print("nothing happened :(\n")
-
-            print(f"{character.name} takes a few more steps in the dark corridor\n")
+            challenge_messages = deal_with_challenge(challenge, character, corridor)
+            messages.extend(challenge_messages)
+            if not character.is_alive:
+                break
 
         corridor.shuffle()
+        messages.append("The corridor is shuffled and all creatures are ressurected.\n")
+
+    return messages
 
 
-def epilogue(result):
-    if result:
-        print("\nThe corridor started crumbling and was reduced to dust\n")
+def deal_with_challenge(challenge, character, corridor):
+    from models.characters import Character
+
+    messages = [f"{character.name} takes a few more steps in the dark corridor\n"]
+    if isinstance(challenge, Character):
+        enemy = challenge
+        messages.append(
+            f"{character.name} finds {enemy.name}, a {enemy.race} and get's ready for a fight.\n"
+        )
+
+        character, enemy, fight_messages = fight(character, enemy)
+        messages.extend(fight_messages)
+
+        if not character.is_alive:
+            messages.append(f"{character.name} dies\n")
+            corridor.add_to_corridor(character)
+        else:
+            messages.append(f"{enemy.name} dies\n")
+            messages.append(f"{character.name} sighs in relief and continues...\n")
+
+    elif isinstance(challenge, Item):
+        messages.append(f"{character.name} picks up the '{challenge}' triumphantly\n")
+
+    elif isinstance(challenge, Food):
+        messages.append(f"{character.name} finds a {challenge} and gobbles it down.\n")
+        character.eat(challenge)
+
+    elif isinstance(challenge, Weapon):
+        messages.append(f"{character.name} finds a {challenge} and equips it.\n")
+        character.equip(challenge)
 
     else:
-        print("\nThe corridor remained unbeaten\n")
+        messages.append("nothing happened :(\n")
+
+    return messages
+
+
+def epilogue():
+    messages = []
+    messages.append("\nThe corridor started crumbling and was reduced to dust\n")

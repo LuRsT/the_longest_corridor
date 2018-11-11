@@ -1,6 +1,6 @@
 import random
 
-from models.characters import GOBLIN, OGRE, ORC, Character
+from models.characters import Character, create_enemy
 from models.items import Food, Item
 from models.weapons import IRON_WEAPONS, MITHRIL_WEAPONS
 from text import get_word_from_corpora
@@ -49,30 +49,12 @@ class Corridor:
         self.reset()
 
     def stats(self):
-        print("The corridor contains:\n")
+        messages = []
+        messages.append("The corridor contains:\n")
         for c in self.stuff_in_corridor:
-            print(c)
+            messages.append(c)
 
-
-def create_enemy():
-    enemy = random.choice([create_orc, create_goblin, create_ogre])
-    return enemy()
-
-
-def create_orc():
-    return Character(create_enemy_name(), ORC, random.choice(IRON_WEAPONS))
-
-
-def create_ogre():
-    return Character(create_enemy_name(), OGRE, random.choice(IRON_WEAPONS))
-
-
-def create_goblin():
-    return Character(create_enemy_name(), GOBLIN, random.choice(IRON_WEAPONS))
-
-
-def create_enemy_name():
-    return get_word_from_corpora("enemy_names")
+        return stats
 
 
 def create_item():

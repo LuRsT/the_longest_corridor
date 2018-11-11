@@ -39,11 +39,13 @@ def main():
     print(corridor.get_history())
     print()
 
-    result = run_corridor(corridor)
+    messages = run_corridor(corridor)
+    for m in messages:
+        print(m)
     print()
 
     print("\n## Epilogue\n")
-    epilogue(result)
+    epilogue()
 
     # print("## Appendix\n\n")
     # corridor.stats()

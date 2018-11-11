@@ -1,7 +1,10 @@
+import random
+
 from dragn.dice import D20
 
 from dataclasses import dataclass
-from models.weapons import Weapon
+from models.weapons import IRON_WEAPONS, Weapon
+from text import get_word_from_corpora
 
 
 @dataclass
@@ -41,10 +44,9 @@ class Character:
 
     def attack(self, other):
         if self.dex + D20() > other.armor:
-            print(f"{self.name} {self.weapon.hit_str} {other.name}\n")
             other.health -= self.weapon.damage
-        else:
-            print(f"{self.name} misses\n")
+            return True
+        return False
 
     @property
     def value(self):
@@ -52,7 +54,7 @@ class Character:
 
     def gain_exp(self, other):
         self.exp += other.value
-        self.maybe_level_up()
+        return self.maybe_level_up()
 
     def maybe_level_up(self):
         lvl_by_xp = {2: 50, 3: 100, 4: 200, 5: 400}
@@ -63,18 +65,17 @@ class Character:
             if self.exp >= xp:
                 self.level = lvl
                 self.level_up()
-                break
+                return True
+
+        return False
 
     def level_up(self):
         self.dex += 1
         self.armor += 1
         self.health += 5
-        print(f"{self.name} feels stronger\n")
 
     def intro(self):
-        print(
-            f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves.\n\n"
-        )
+        return f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves.\n\n"
 
     def eat(self, food):
         self.health += food.amount
@@ -84,7 +85,7 @@ class Character:
 
     @property
     def stats(self):
-        print(
+        return (
             f"DEX: {self.dex} ARMOR: {self.armor} "
             f"HP: {self.health} WEAPON: {self.weapon}"
             f"LEVEL: {self.level}"
@@ -98,3 +99,47 @@ ELF = Race("Dwarf", 18, 8, 13)
 ORC = Race("Orc", 10, 10, 10)
 GOBLIN = Race("Goblin", 5, 8, 13)
 OGRE = Race("Ogre", 30, 14, 7)
+
+
+def create_adventurer():
+    creator = random.choice([_create_dwarf, _create_human, _create_elf])
+    return creator()
+
+
+def _create_elf():
+    return Character(
+        get_word_from_corpora("first_names"), ELF, random.choice(IRON_WEAPONS)
+    )
+
+
+def _create_human():
+    return Character(
+        get_word_from_corpora("first_names"), HUMAN, random.choice(IRON_WEAPONS)
+    )
+
+
+def _create_dwarf():
+    return Character(
+        get_word_from_corpora("first_names"), DWARF, random.choice(IRON_WEAPONS)
+    )
+
+
+def create_enemy():
+    enemy = random.choice([_create_orc, _create_goblin, _create_ogre])
+    return enemy()
+
+
+def _create_orc():
+    return Character(create_enemy_name(), ORC, random.choice(IRON_WEAPONS))
+
+
+def _create_ogre():
+    return Character(create_enemy_name(), OGRE, random.choice(IRON_WEAPONS))
+
+
+def _create_goblin():
+    return Character(create_enemy_name(), GOBLIN, random.choice(IRON_WEAPONS))
+
+
+def create_enemy_name():
+    return get_word_from_corpora("enemy_names")
