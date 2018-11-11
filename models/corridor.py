@@ -3,7 +3,7 @@ import random
 from models.characters import GOBLIN, OGRE, ORC, Character
 from models.items import Food, Item
 from models.weapons import IRON_WEAPONS, MITHRIL_WEAPONS
-from text import get_str_from_rules, get_word_from_corpora
+from text import get_word_from_corpora
 
 
 class Corridor:
