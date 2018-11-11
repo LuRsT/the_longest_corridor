@@ -35,7 +35,7 @@ def run_corridor(corridor):
     from models.characters import create_adventurer
 
     messages = []
-    for chapter in range(10):
+    for chapter in range(1, 11):
         character = create_adventurer()
 
         messages.append(f"\n\n# Chapter #{chapter} ({character.name})\n")
@@ -59,7 +59,7 @@ def run_corridor(corridor):
 
 
 def deal_with_challenge(challenge, character, corridor):
-    from models.characters import Character
+    from models.characters import Character, create_goblin
 
     messages = [f"{character.name} takes a few more steps in the dark corridor\n"]
     if isinstance(challenge, Character):
@@ -73,8 +73,18 @@ def deal_with_challenge(challenge, character, corridor):
 
         if not character.is_alive:
             messages.append(f"{character.name} dies\n")
-            messages.append(f"{character.name} gets ressurected by the corridor and becomes a part of it.\n")
-            corridor.add_to_corridor(character)
+            if character.level > 2:
+                messages.append(
+                    f"{character.name} gets ressurected by the corridor and becomes a part of it.\n"
+                )
+                corridor.add_to_corridor(character)
+            else:
+                messages.append(
+                    f"{character.name} is not worthy for the corridor. Three goblins get spawned in their place."
+                )
+                corridor.add_to_corridor(create_goblin(character.weapon))
+                corridor.add_to_corridor(create_goblin())
+                corridor.add_to_corridor(create_goblin())
         else:
             messages.append(f"{enemy.name} dies\n")
             messages.append(f"{character.name} sighs in relief and continues...\n")
@@ -97,7 +107,9 @@ def deal_with_challenge(challenge, character, corridor):
             corridor.add_to_corridor(old_weapon)
             corridor.remove_from_corridor(weapon)
         else:
-            messages.append(f"After some inspection, {character.name} decides not to take {weapon}")
+            messages.append(
+                f"After some inspection, {character.name} decides not to take {weapon}"
+            )
 
     return messages
 

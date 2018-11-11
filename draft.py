@@ -47,8 +47,9 @@ def main():
     print("\n## Epilogue\n")
     epilogue()
 
-    # print("## Appendix\n\n")
-    # corridor.stats()
+    print("\n## Appendix\n\n")
+    for s in corridor.stats():
+        print(s)
 
 
 if __name__ == "__main__":

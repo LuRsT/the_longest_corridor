@@ -44,8 +44,6 @@ class Weapon:
             self.kills[race] = 1
 
         number_of_kills = sum([k for k in self.kills.values()])
-        if number_of_kills > 3:
-            self.name = "The thricekiller"
 
     @property
     def difficulty(self) -> int:

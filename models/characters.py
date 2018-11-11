@@ -95,9 +95,9 @@ class Character:
     @property
     def stats(self):
         return (
+            f"{self.name}, a {self.race} wielding a {self.weapon}, "
             f"DEX: {self.dex} ARMOR: {self.armor} "
-            f"HP: {self.health} WEAPON: {self.weapon}"
-            f"LEVEL: {self.level}"
+            f"HP: {self._max_health} LVL: {self.level}\n"
         )
 
 
@@ -134,7 +134,7 @@ def _create_dwarf():
 
 
 def create_enemy():
-    enemy = random.choice([_create_orc, _create_goblin, _create_ogre])
+    enemy = random.choice([_create_orc, create_goblin, _create_ogre])
     return enemy()
 
 
@@ -146,8 +146,11 @@ def _create_ogre():
     return Character(create_enemy_name(), OGRE, random.choice(IRON_WEAPONS))
 
 
-def _create_goblin():
-    return Character(create_enemy_name(), GOBLIN, random.choice(IRON_WEAPONS))
+def create_goblin(weapon=None):
+    if weapon:
+        return Character(create_enemy_name(), GOBLIN, weapon)
+    else:
+        return Character(create_enemy_name(), GOBLIN, random.choice(IRON_WEAPONS))
 
 
 def create_enemy_name():

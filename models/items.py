@@ -26,9 +26,9 @@ class Food:
             20: "a big chunk of",
         }
         for amount, string in amount_per_string.items():
-            if self.amount > amount:
-                continue
-            return string
+            if self.amount < amount:
+                return string
+        return "a banquet of"
 
     def __str__(self):
         return f"{self.get_amount_string()} {self.kind}"

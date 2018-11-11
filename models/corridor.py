@@ -13,6 +13,7 @@ class Corridor:
         self.initial_creation()
         self.reset()
         self.index = len(self.corridor)
+        self.stuff_to_remove = []
 
     def initial_creation(self):
         monsters = [create_enemy() for _ in range(15)]
@@ -29,7 +30,7 @@ class Corridor:
         self.stuff_in_corridor.append(thing)
 
     def remove_from_corridor(self, thing):
-        self.stuff_in_corridor.pop(thing)
+        self.stuff_to_remove.append(thing)
 
     def get_history(self):
         corridor_history = f"The corridor was created by a God who laid out some creatures, a bit of food, and finally, left the {self.item}"
@@ -45,6 +46,10 @@ class Corridor:
         return self.corridor[self.index]
 
     def shuffle(self):
+        for s in self.stuff_to_remove:
+            self.stuff_in_corridor.remove(s)
+        self.stuff_to_remove = []
+
         for c in self.stuff_in_corridor:
             if isinstance(c, Character):
                 c.resurrect()
@@ -56,9 +61,12 @@ class Corridor:
         messages = []
         messages.append("The corridor contains:\n")
         for c in self.stuff_in_corridor:
-            messages.append(c)
+            if isinstance(c, Character):
+                messages.append(c.stats)
+            else:
+                messages.append(c)
 
-        return stats
+        return messages
 
 
 def create_item():
