@@ -65,6 +65,10 @@ class Weapon:
     def hit_str(self):
         return random.choice(self.kind.hit_choices)
 
+    @property
+    def value(self):
+        return self.material.damage_modifier + self.kind.damage_modifier.max_value
+
 
 IRON = Material("Iron", 2, 2)
 STEEL = Material("Steel", 3, 4)

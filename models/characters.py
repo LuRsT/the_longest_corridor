@@ -31,10 +31,10 @@ class Character:
         self.armor = self.race.armor
         self.dex = self.race.dex
 
-        self._original_health = self.health
+        self._max_health = self.health
 
     def resurrect(self):
-        self.health = self._original_health
+        self.health = self._max_health
 
     @property
     def is_alive(self):
@@ -50,7 +50,7 @@ class Character:
 
     @property
     def value(self):
-        return (self.exp * self.level) + self.dex + self._original_health + self.armor
+        return (self.exp * self.level) + self.dex + self._max_health + self.armor
 
     def gain_exp(self, other):
         self.exp += other.value
@@ -73,15 +73,24 @@ class Character:
         self.dex += 1
         self.armor += 1
         self.health += 5
+        self._max_health += 5
 
     def intro(self):
         return f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves.\n\n"
 
     def eat(self, food):
-        self.health += food.amount
+        self.heal(food.amount)
 
-    def equip(self, weapon: Weapon):
-        self.weapon = weapon
+    def heal(self, amount):
+        self.health += amount
+        if self.health > self._max_health:
+            self.health = self._max_health
+
+    def loot(self, weapon: Weapon):
+        if self.weapon.value < weapon.value:
+            self.weapon = weapon
+            return True
+        return
 
     @property
     def stats(self):

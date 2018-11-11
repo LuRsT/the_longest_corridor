@@ -73,6 +73,7 @@ def deal_with_challenge(challenge, character, corridor):
 
         if not character.is_alive:
             messages.append(f"{character.name} dies\n")
+            messages.append(f"{character.name} gets ressurected by the corridor and becomes a part of it.\n")
             corridor.add_to_corridor(character)
         else:
             messages.append(f"{enemy.name} dies\n")
@@ -86,11 +87,17 @@ def deal_with_challenge(challenge, character, corridor):
         character.eat(challenge)
 
     elif isinstance(challenge, Weapon):
-        messages.append(f"{character.name} finds a {challenge} and equips it.\n")
-        character.equip(challenge)
+        weapon = challenge
+        messages.append(f"{character.name} finds a {weapon}.\n")
 
-    else:
-        messages.append("nothing happened :(\n")
+        old_weapon = character.weapon
+        equiped = character.loot(challenge)
+        if equiped:
+            messages.append(f"{character.name} equips {weapon}")
+            corridor.add_to_corridor(old_weapon)
+            corridor.remove_from_corridor(weapon)
+        else:
+            messages.append(f"After some inspection, {character.name} decides not to take {weapon}")
 
     return messages
 
