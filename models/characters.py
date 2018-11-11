@@ -3,7 +3,7 @@ import random
 from dragn.dice import D20
 
 from dataclasses import dataclass
-from models.weapons import IRON_WEAPONS, Weapon
+from models.weapons import get_iron_weapon, Weapon
 from text import get_word_from_corpora
 
 
@@ -90,7 +90,7 @@ class Character:
         if self.weapon.value < weapon.value:
             self.weapon = weapon
             return True
-        return
+        return False
 
     @property
     def stats(self):
@@ -112,7 +112,7 @@ OGRE = Race("Ogre", 30, 14, 7)
 
 def create_adventurer():
     creator = random.choice([_create_dwarf, _create_human, _create_elf])
-    return creator(random.choice(IRON_WEAPONS))
+    return creator(get_iron_weapon())
 
 
 def _create_elf(weapon):
@@ -128,11 +128,11 @@ def _create_dwarf(weapon):
 
 
 def create_enemy():
-    enemy = random.choice([_create_orc, create_goblin, _create_ogre])
-    return enemy(random.choice(IRON_WEAPONS))
+    enemy = random.choice([create_orc, create_goblin, _create_ogre])
+    return enemy(get_iron_weapon())
 
 
-def _create_orc(weapon):
+def create_orc(weapon):
     return Character(create_enemy_name(), ORC, weapon)
 
 

@@ -2,7 +2,7 @@ import random
 
 from models.characters import Character, create_enemy
 from models.items import Food, Item
-from models.weapons import IRON_WEAPONS, MITHRIL_WEAPONS
+from models.weapons import get_mithril_weapon
 from text import get_word_from_corpora
 
 
@@ -18,7 +18,7 @@ class Corridor:
     def initial_creation(self):
         monsters = [create_enemy() for _ in range(15)]
         food = [create_food() for _ in range(3)]
-        treasure = [random.choice(MITHRIL_WEAPONS)]
+        treasure = [get_mithril_weapon()]
 
         self.stuff_in_corridor = [*monsters, *food, *treasure]
 
@@ -65,6 +65,12 @@ class Corridor:
                 messages.append(c.stats)
             else:
                 messages.append(str(c) + "\n")
+
+        ## WEAPON STATS
+        messages.append("\n### Weapon stats\n\n")
+        weapons = sorted([c.weapon for c in self.stuff_in_corridor if isinstance(c, Character)], key=lambda w: w.kind)
+        for w in weapons:
+            messages.append(f"- {w} with {w.kills}")
 
         return messages
 

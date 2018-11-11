@@ -5,7 +5,7 @@ from tracery.modifiers import base_english
 
 from combat import fight
 from models.items import Food, Item
-from models.weapons import IRON_WEAPONS, Weapon
+from models.weapons import get_iron_weapon, Weapon, get_steel_weapon
 
 
 def _get_corpora(corpora_name):
@@ -35,7 +35,7 @@ def run_corridor(corridor):
     from models.characters import create_adventurer
 
     messages = []
-    for chapter in range(1, 11):
+    for chapter in range(1):
         character = create_adventurer()
 
         messages.append(f"\n\n# Chapter #{chapter} ({character.name})\n")
@@ -59,7 +59,7 @@ def run_corridor(corridor):
 
 
 def deal_with_challenge(challenge, character, corridor):
-    from models.characters import Character, create_goblin
+    from models.characters import Character, create_goblin, create_orc
 
     messages = [f"{character.name} takes a few more steps in the dark corridor\n"]
     if isinstance(challenge, Character):
@@ -83,18 +83,29 @@ def deal_with_challenge(challenge, character, corridor):
                     f"{character.name} is not worthy for the corridor. Three goblins get spawned in their place."
                 )
                 corridor.add_to_corridor(create_goblin(character.weapon))
-                corridor.add_to_corridor(create_goblin(random.choice(IRON_WEAPONS)))
-                corridor.add_to_corridor(create_goblin(random.choice(IRON_WEAPONS)))
+                corridor.add_to_corridor(create_goblin(get_iron_weapon()))
+                corridor.add_to_corridor(create_goblin(get_iron_weapon()))
         else:
             messages.append(f"{enemy.name} dies\n")
+            old_weapon = character.weapon
+
             equiped = character.loot(enemy.weapon)
             if equiped:
                 messages.append(
                     f"{character.name} equips {character.weapon} from the corpse"
                 )
+                enemy.weapon = old_weapon
 
     elif isinstance(challenge, Item):
         messages.append(f"{character.name} picks up the '{challenge}' triumphantly\n")
+        messages.append("The corridor zaps {character.name} with great might and creates:")
+
+        messages.append("\n- One Orc with their weapon")
+        corridor.add_to_corridor(create_orc(character.weapon))
+        for _ in range(character.level):
+            messages.append("\n- an Orc with a stronger weapon")
+            corridor.add_to_corridor(create_orc(get_steel_weapon()))
+
 
     elif isinstance(challenge, Food):
         messages.append(f"{character.name} finds a {challenge} and gobbles it down.\n")

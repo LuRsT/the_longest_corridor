@@ -1,4 +1,5 @@
 import random
+import uuid
 from typing import Any, List
 
 from dragn.dice import *
@@ -25,6 +26,9 @@ class WeaponKind:
 
     def __str__(self) -> str:
         return self.name
+
+    def __gt__(self, other):
+        return self.name > other.name
 
 
 @dataclass
@@ -74,26 +78,22 @@ IRON = Material("Iron", 2, 2)
 STEEL = Material("Steel", 3, 4)
 MITHRIL = Material("Mithril", 1, 8)
 
-SWORD = WeaponKind("Sword", D4, 1, ["slashes"])
-GREATSWORD = WeaponKind("Greatsword", D20, 6, ["slashes"])
-MACE = WeaponKind("Mace", D12, 4, ["whacks"])
-HALBERD = WeaponKind("Halberd", D6, 4, ["slices"])
 
-IRON_WEAPONS = (
-    Weapon(SWORD, IRON),
-    Weapon(HALBERD, IRON),
-    Weapon(SWORD, IRON),
-    Weapon(GREATSWORD, IRON),
-)
-STEEL_WEAPONS = (
-    Weapon(SWORD, STEEL),
-    Weapon(HALBERD, STEEL),
-    Weapon(SWORD, STEEL),
-    Weapon(GREATSWORD, STEEL),
-)
-MITHRIL_WEAPONS = (
-    Weapon(SWORD, MITHRIL),
-    Weapon(HALBERD, MITHRIL),
-    Weapon(SWORD, MITHRIL),
-    Weapon(GREATSWORD, MITHRIL),
-)
+WEAPON_KINDS = [
+    WeaponKind("Sword", D4, 1, ["slashes"]),
+    WeaponKind("Greatsword", D20, 6, ["slashes"]),
+    WeaponKind("Mace", D12, 4, ["whacks"]),
+    WeaponKind("Halberd", D6, 4, ["slices"]),
+]
+
+
+def get_iron_weapon():
+    return Weapon(random.choice(WEAPON_KINDS), IRON)
+
+
+def get_steel_weapon():
+    return Weapon(random.choice(WEAPON_KINDS), STEEL)
+
+
+def get_mithril_weapon():
+    return Weapon(random.choice(WEAPON_KINDS), MITHRIL)
