@@ -62,13 +62,16 @@ class Corridor:
         messages.append("The corridor contains:\n")
         for c in self.stuff_in_corridor:
             if isinstance(c, Character):
-                messages.append(c.stats)
+                messages.append(f"- {c.stats}")
             else:
-                messages.append(str(c) + "\n")
+                messages.append(f"- {c}")
 
         ## WEAPON STATS
         messages.append("\n### Weapon stats\n\n")
-        weapons = sorted([c.weapon for c in self.stuff_in_corridor if isinstance(c, Character)], key=lambda w: w.kind)
+        weapons = sorted(
+            [c.weapon for c in self.stuff_in_corridor if isinstance(c, Character)],
+            key=lambda w: w.kind,
+        )
         for w in weapons:
             messages.append(f"- {w} with {w.kills}")
 

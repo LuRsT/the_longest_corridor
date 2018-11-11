@@ -31,4 +31,4 @@ class Food:
         return "a banquet of"
 
     def __str__(self):
-        return f"{self.get_amount_string()} {self.kind}"
+        return f"{self.get_amount_string()} {self.kind}".title()

@@ -35,7 +35,7 @@ def run_corridor(corridor):
     from models.characters import create_adventurer
 
     messages = []
-    for chapter in range(1):
+    for chapter in range(1, 31):
         character = create_adventurer()
 
         messages.append(f"\n\n# Chapter #{chapter} ({character.name})\n")
@@ -98,14 +98,15 @@ def deal_with_challenge(challenge, character, corridor):
 
     elif isinstance(challenge, Item):
         messages.append(f"{character.name} picks up the '{challenge}' triumphantly\n")
-        messages.append("The corridor zaps {character.name} with great might and creates:")
+        messages.append(
+            "The corridor zaps {character.name} with great might and creates:"
+        )
 
         messages.append("\n- One Orc with their weapon")
         corridor.add_to_corridor(create_orc(character.weapon))
         for _ in range(character.level):
             messages.append("\n- an Orc with a stronger weapon")
             corridor.add_to_corridor(create_orc(get_steel_weapon()))
-
 
     elif isinstance(challenge, Food):
         messages.append(f"{character.name} finds a {challenge} and gobbles it down.\n")
@@ -130,5 +131,4 @@ def deal_with_challenge(challenge, character, corridor):
 
 
 def epilogue():
-    messages = []
-    messages.append("\nThe corridor started crumbling and was reduced to dust\n")
+    return "\nAfter so much blood, The corridor's thirst is sated, it starts crumbling and is reduced to dust in just a few minutes.\n"

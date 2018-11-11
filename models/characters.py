@@ -3,7 +3,7 @@ import random
 from dragn.dice import D20
 
 from dataclasses import dataclass
-from models.weapons import get_iron_weapon, Weapon
+from models.weapons import Weapon, get_iron_weapon
 from text import get_word_from_corpora
 
 
@@ -97,7 +97,7 @@ class Character:
         return (
             f"{self.name}, a {self.race} wielding a {self.weapon}, "
             f"DEX: {self.dex} ARMOR: {self.armor} "
-            f"HP: {self._max_health} LVL: {self.level}\n"
+            f"HP: {self._max_health} LVL: {self.level}"
         )
 
 

@@ -45,7 +45,7 @@ def main():
     print()
 
     print("\n## Epilogue\n")
-    epilogue()
+    print(epilogue())
 
     print("\n## Appendix\n\n")
     for s in corridor.stats():
