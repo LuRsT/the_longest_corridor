@@ -58,7 +58,7 @@ def run_corridor(corridor):
 
                 if not character.is_alive:
                     print(f"{character.name} dies\n")
-                    corridor.add_item(character.weapon)
+                    corridor.add_to_corridor(character)
                     break
                 else:
                     print(f"{enemy.name} dies\n")
@@ -98,7 +98,7 @@ def main():
 
     Intro
     Corridor Creation
-    One Chapter per adventurer until someone gets to the end or a limit of runs is reached
+    One Chapter per adventurer
     Epilogue
     """
 
