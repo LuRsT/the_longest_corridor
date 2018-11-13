@@ -40,8 +40,9 @@ def main():
     print()
 
     messages = run_corridor(corridor)
-    for m in messages:
-        print(m)
+    for _, chapter_messages in messages.items():
+        for message in chapter_messages:
+            print(message)
     print()
 
     print("\n## Epilogue\n")

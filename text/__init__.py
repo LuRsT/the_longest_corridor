@@ -34,26 +34,28 @@ def intro(item):
 def run_corridor(corridor):
     from models.characters import create_adventurer
 
-    messages = []
+    messages = {}
     for chapter in range(1, 31):
         character = create_adventurer()
 
-        messages.append(f"\n\n# Chapter #{chapter} ({character.name})\n")
+        messages[chapter] = []
+        msgs = messages[chapter]
+        msgs.append(f"\n\n## Chapter #{chapter} ({character.name})\n")
 
-        messages.append(character.intro())
+        msgs.append(character.intro())
 
-        messages.append(
+        msgs.append(
             f"{character.name} slowly steps into the dark corridor to start their walk...\n"
         )
 
         for challenge in corridor:
             challenge_messages = deal_with_challenge(challenge, character, corridor)
-            messages.extend(challenge_messages)
+            msgs.extend(challenge_messages)
             if not character.is_alive:
                 break
 
         corridor.shuffle()
-        messages.append("The corridor is shuffled and all creatures are ressurected.\n")
+        msgs.append("The corridor is shuffled and all creatures are ressurected.\n")
 
     return messages
 
@@ -99,13 +101,13 @@ def deal_with_challenge(challenge, character, corridor):
     elif isinstance(challenge, Item):
         messages.append(f"{character.name} picks up the '{challenge}' triumphantly\n")
         messages.append(
-            "The corridor zaps {character.name} with great might and creates:"
+            f"The corridor zaps {character.name} with great might and creates:\n"
         )
 
-        messages.append("\n- One Orc with their weapon")
+        messages.append("- One Orc with their weapon\n")
         corridor.add_to_corridor(create_orc(character.weapon))
         for _ in range(character.level):
-            messages.append("\n- an Orc with a stronger weapon")
+            messages.append("- an Orc with a stronger weapon\n")
             corridor.add_to_corridor(create_orc(get_steel_weapon()))
 
     elif isinstance(challenge, Food):
