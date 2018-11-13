@@ -1,7 +1,8 @@
 .PHONY: run book proper-book clean clean-proper-book pretty
 
 run:
-	python draft.py
+	python draft.py > book.md
+	cat book.md
 
 book: clean
 	python draft.py > book.md

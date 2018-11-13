@@ -16,11 +16,11 @@ class Corridor:
         self.stuff_to_remove = []
 
     def initial_creation(self):
-        monsters = [create_enemy() for _ in range(15)]
-        food = [create_food() for _ in range(3)]
-        treasure = [get_mithril_weapon()]
+        self.stuff_in_corridor = []
 
-        self.stuff_in_corridor = [*monsters, *food, *treasure]
+        self._add_treasure(1)
+        self._add_enemies(15)
+        self._add_food(3)
 
     def reset(self):
         random.shuffle(self.stuff_in_corridor)
@@ -46,16 +46,40 @@ class Corridor:
         return self.corridor[self.index]
 
     def shuffle(self):
-        for s in self.stuff_to_remove:
-            self.stuff_in_corridor.remove(s)
-        self.stuff_to_remove = []
+        self._remove_things()
+
+        self._add_food(int(len(self.stuff_in_corridor) / 10))
 
         for c in self.stuff_in_corridor:
             if isinstance(c, Character):
                 c.resurrect()
-        self.index = len(self.corridor)
 
         self.reset()
+
+        self.index = len(self.corridor)
+
+    def _add_food(self, amount):
+        food = [create_food() for _ in range(amount)]
+        self.stuff_in_corridor.extend(food)
+
+    def _add_enemies(self, amount):
+        monsters = [create_enemy() for _ in range(amount)]
+        self.stuff_in_corridor.extend(monsters)
+
+    def _add_treasure(self, amount):
+        treasure = [get_mithril_weapon() for _ in range(amount)]
+        self.stuff_in_corridor.extend(treasure)
+
+    def _remove_things(self):
+        for s in self.stuff_in_corridor:
+            if isinstance(s, Food):
+                self.stuff_to_remove.append(s)
+
+        for s in self.stuff_to_remove:
+            self.stuff_in_corridor.remove(s)
+
+        self.stuff_in_corridor = [s for s in self.stuff_in_corridor if s not in self.stuff_to_remove]
+        self.stuff_to_remove = []
 
     def stats(self):
         messages = []

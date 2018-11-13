@@ -40,7 +40,7 @@ def run_corridor(corridor):
 
         messages[chapter] = []
         msgs = messages[chapter]
-        msgs.append(f"\n\n## Chapter #{chapter} ({character.name})\n")
+        msgs.append(f"\n## Chapter #{chapter} ({character.name})\n")
 
         msgs.append(character.intro())
 
