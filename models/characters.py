@@ -32,9 +32,13 @@ class Character:
         self.dex = self.race.dex
 
         self._max_health = self.health
+        self.is_zombie = False
 
     def resurrect(self):
-        self.health = self._max_health
+        if not self.is_alive:
+            self.is_zombie = True
+            self.name = 'Zombie ' + self.name # TODO Better way of doing this
+            self.health = self._max_health
 
     @property
     def is_alive(self):

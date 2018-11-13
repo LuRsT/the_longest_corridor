@@ -1,6 +1,7 @@
 import random
 
 from models.characters import Character, create_enemy
+from models.weapons import Weapon
 from models.items import Food, Item
 from models.weapons import get_mithril_weapon
 from text import get_word_from_corpora
@@ -46,17 +47,22 @@ class Corridor:
         return self.corridor[self.index]
 
     def shuffle(self):
+        self._ressurect_creatures()
         self._remove_things()
 
         self._add_food(int(len(self.stuff_in_corridor) / 10))
-
-        for c in self.stuff_in_corridor:
-            if isinstance(c, Character):
-                c.resurrect()
-
         self.reset()
 
         self.index = len(self.corridor)
+
+    def _ressurect_creatures(self):
+        for c in self.stuff_in_corridor:
+            if isinstance(c, Character):
+                if c.is_zombie and not c.is_alive:
+                    self.stuff_in_corridor.append(c.weapon)
+                    self.stuff_to_remove.append(c)
+                else:
+                    c.resurrect()
 
     def _add_food(self, amount):
         food = [create_food() for _ in range(amount)]
@@ -74,11 +80,16 @@ class Corridor:
         for s in self.stuff_in_corridor:
             if isinstance(s, Food):
                 self.stuff_to_remove.append(s)
+            elif isinstance(s, Weapon):
+                if s.kills == {}:
+                    self.stuff_to_remove.append(s)
 
         for s in self.stuff_to_remove:
             self.stuff_in_corridor.remove(s)
 
-        self.stuff_in_corridor = [s for s in self.stuff_in_corridor if s not in self.stuff_to_remove]
+        self.stuff_in_corridor = [
+            s for s in self.stuff_in_corridor if s not in self.stuff_to_remove
+        ]
         self.stuff_to_remove = []
 
     def stats(self):
@@ -96,6 +107,7 @@ class Corridor:
             [c.weapon for c in self.stuff_in_corridor if isinstance(c, Character)],
             key=lambda w: w.kind,
         )
+        weapons.extend([w for w in self.stuff_in_corridor if isinstance(w, Weapon)])
         weapons = filter(lambda w: bool(w.kills), weapons)
         for w in weapons:
             messages.append(f"- {w} killed: {w.kills}\n")
