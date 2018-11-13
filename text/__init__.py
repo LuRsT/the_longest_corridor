@@ -4,7 +4,7 @@ import tracery
 from tracery.modifiers import base_english
 
 from combat import fight
-from models.items import Food, Item
+from models.items import Food, Item, Scroll
 from models.weapons import get_iron_weapon, Weapon, get_steel_weapon
 
 
@@ -73,21 +73,7 @@ def deal_with_challenge(challenge, character, corridor):
         character, enemy, fight_messages = fight(character, enemy)
         messages.extend(fight_messages)
 
-        if not character.is_alive:
-            messages.append(f"{character.name} dies\n")
-            if character.level > 2:
-                messages.append(
-                    f"{character.name} gets ressurected by the corridor and becomes a part of it.\n"
-                )
-                corridor.add_to_corridor(character)
-            else:
-                messages.append(
-                    f"{character.name} is not worthy for the corridor. Three goblins get spawned in their place."
-                )
-                corridor.add_to_corridor(create_goblin(character.weapon))
-                corridor.add_to_corridor(create_goblin(get_iron_weapon()))
-                corridor.add_to_corridor(create_goblin(get_iron_weapon()))
-        else:
+        if not enemy.is_alive:
             messages.append(f"{enemy.name} dies\n")
             old_weapon = character.weapon
 
@@ -110,6 +96,13 @@ def deal_with_challenge(challenge, character, corridor):
             messages.append("- an Orc with a stronger weapon\n")
             corridor.add_to_corridor(create_orc(get_steel_weapon()))
 
+    elif isinstance(challenge, Scroll):
+        messages.append(f"{character.name} finds a dusty scroll a reads it.\n")
+        scroll = challenge
+        scroll.apply(character)
+        corridor.remove_from_corridor(scroll)
+        messages.append(f"...shortly after, the scroll crumbles into dust, it was a {scroll.name}\n")
+
     elif isinstance(challenge, Food):
         messages.append(f"{character.name} finds a {challenge} and gobbles it down.\n")
         character.eat(challenge)
@@ -121,13 +114,29 @@ def deal_with_challenge(challenge, character, corridor):
         old_weapon = character.weapon
         equiped = character.loot(challenge)
         if equiped:
-            messages.append(f"{character.name} equips {weapon}")
+            messages.append(f"{character.name} equips {weapon}\n")
             corridor.add_to_corridor(old_weapon)
             corridor.remove_from_corridor(weapon)
         else:
             messages.append(
-                f"After some inspection, {character.name} decides not to take {weapon}"
+                f"After some inspection, {character.name} decides not to take {weapon}\n"
             )
+
+
+    if not character.is_alive:
+        messages.append(f"{character.name} dies\n")
+        if character.level > 2:
+            messages.append(
+                f"{character.name} gets ressurected by the corridor and becomes a part of it.\n"
+            )
+            corridor.add_to_corridor(character)
+        else:
+            messages.append(
+                f"{character.name} is not worthy for the corridor. Three goblins get spawned in their place."
+            )
+            corridor.add_to_corridor(create_goblin(character.weapon))
+            corridor.add_to_corridor(create_goblin(get_iron_weapon()))
+            corridor.add_to_corridor(create_goblin(get_iron_weapon()))
 
     return messages
 

@@ -2,7 +2,7 @@ import random
 
 from models.characters import Character, create_enemy
 from models.weapons import Weapon
-from models.items import Food, Item
+from models.items import Food, Item, Scroll
 from models.weapons import get_mithril_weapon
 from text import get_word_from_corpora
 
@@ -22,6 +22,7 @@ class Corridor:
         self._add_treasure(1)
         self._add_enemies(15)
         self._add_food(3)
+        self._add_scrolls(2)
 
     def reset(self):
         random.shuffle(self.stuff_in_corridor)
@@ -67,6 +68,10 @@ class Corridor:
     def _add_food(self, amount):
         food = [create_food() for _ in range(amount)]
         self.stuff_in_corridor.extend(food)
+
+    def _add_scrolls(self, amount):
+        scrolls = [create_scroll() for _ in range(amount)]
+        self.stuff_in_corridor.extend(scrolls)
 
     def _add_enemies(self, amount):
         monsters = [create_enemy() for _ in range(amount)]
@@ -121,3 +126,10 @@ def create_item():
 
 def create_food():
     return Food(get_word_from_corpora("food"), random.randint(1, 30))
+
+def create_scroll():
+    scrolls = [
+        Scroll('Scroll of healing', lambda c: c.heal(5)),
+        Scroll('Scroll of poison', lambda c: c.take_damage(5)),
+    ]
+    return random.choice(scrolls)

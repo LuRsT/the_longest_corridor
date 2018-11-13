@@ -48,7 +48,7 @@ class Character:
 
     def attack(self, other):
         if self.dex + D20() > other.armor:
-            other.health -= self.weapon.damage
+            other.take_damage(self.weapon.damage)
             return True
         return False
 
@@ -95,6 +95,9 @@ class Character:
             self.weapon = weapon
             return True
         return False
+
+    def take_damage(self, damage):
+        self.health -= damage
 
     @property
     def stats(self):

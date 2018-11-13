@@ -1,6 +1,7 @@
 from dragn.dice import D20
 
 from dataclasses import dataclass
+from typing import Any
 from models.weapons import Weapon
 
 
@@ -12,6 +13,16 @@ class Item:
     def __str__(self):
         return f"{self.kind} of {self.material}"
 
+@dataclass
+class Scroll:
+    name: str
+    action: Any
+
+    def apply(self, character):
+        self.action(character)
+
+    def __str__(self):
+        return f"{self.name}"
 
 @dataclass
 class Food:
