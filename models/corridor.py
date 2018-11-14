@@ -1,9 +1,8 @@
 import random
 
 from models.characters import Character, create_enemy
-from models.weapons import Weapon
 from models.items import Food, Item, Scroll
-from models.weapons import get_mithril_weapon
+from models.weapons import Weapon, get_mithril_weapon
 from text import get_word_from_corpora
 
 
@@ -131,9 +130,10 @@ def create_item():
 def create_food():
     return Food(get_word_from_corpora("food"), random.randint(1, 30))
 
+
 def create_scroll():
     scrolls = [
-        Scroll('Scroll of healing', lambda c: c.heal(5)),
-        Scroll('Scroll of poison', lambda c: c.take_damage(5)),
+        Scroll("Scroll of healing", lambda c: c.heal(5)),
+        Scroll("Scroll of poison", lambda c: c.take_damage(5)),
     ]
     return random.choice(scrolls)

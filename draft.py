@@ -32,7 +32,7 @@ def main():
     corridor = Corridor()
 
     print("\n## Introduction\n")
-    print(intro(corridor.item))
+    print(intro(corridor))
     print()
 
     print("\n## The corridor\n")

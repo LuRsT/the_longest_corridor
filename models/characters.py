@@ -37,7 +37,7 @@ class Character:
     def resurrect(self):
         if not self.is_alive:
             self.is_zombie = True
-            self.name = 'Zombie ' + self.name # TODO Better way of doing this
+            self.name = "Zombie " + self.name  # TODO Better way of doing this
             self.health = self._max_health
 
     @property

@@ -7,7 +7,7 @@ def main():
 
     with open("book/001-intro.md", "w") as intro_file:
         intro_file.write("\n## Introduction\n\n")
-        intro_file.write(intro(corridor.item))
+        intro_file.write(intro(corridor))
 
     with open("book/002-corridor.md", "w") as corridor_file:
         corridor_file.write("\n## The corridor\n\n")
