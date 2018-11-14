@@ -23,7 +23,7 @@ def main():
     number = chapter + 3
     with open(f"book/{str(number).zfill(3)}-epilogue.md", "w") as epilogue_file:
         epilogue_file.write("\n## Epilogue\n")
-        epilogue_file.write(epilogue())
+        epilogue_file.write(epilogue(corridor))
 
     number += 1
     with open(f"book/{str(number).zfill(3)}-appendix.md", "w") as appendix_file:

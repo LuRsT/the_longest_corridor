@@ -134,21 +134,28 @@ def _create_dwarf(weapon):
     return Character(get_word_from_corpora("first_names"), DWARF, weapon)
 
 
-def create_enemy():
+def create_enemy(zombie=False):
     enemy = random.choice([create_orc, create_goblin, _create_ogre])
-    return enemy(get_iron_weapon())
+    return enemy(get_iron_weapon(), zombie)
 
 
-def create_orc(weapon):
-    return Character(create_enemy_name(), ORC, weapon)
+def create_orc(weapon, zombie=False):
+    return _create_enemy(weapon, ORC, zombie)
 
 
-def _create_ogre(weapon):
-    return Character(create_enemy_name(), OGRE, weapon)
+def _create_ogre(weapon, zombie=False):
+    return _create_enemy(weapon, OGRE, zombie)
 
 
-def create_goblin(weapon):
-    return Character(create_enemy_name(), GOBLIN, weapon)
+def create_goblin(weapon, zombie=False):
+    return _create_enemy(weapon, GOBLIN, zombie)
+
+
+def _create_enemy(weapon, race, zombie):
+    character = Character(create_enemy_name(), race, weapon)
+    if zombie:
+        character.is_zombie = True
+    return character
 
 
 def create_enemy_name():

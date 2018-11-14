@@ -54,10 +54,7 @@ def run_corridor(corridor):
             if not character.is_alive:
                 break
 
-        corridor.update()
-        msgs.append(
-            f"The {corridor.name} is shuffled and all creatures are ressurected.\n"
-        )
+        msgs.extend(corridor.update())
 
     return messages
 
@@ -137,7 +134,7 @@ def deal_with_challenge(challenge, character, corridor):
             corridor.add_to_corridor(character)
         else:
             messages.append(
-                f"{character.name} is not worthy for the {corridor.name}. Three goblins get spawned in their place."
+                f"{character.name} is not worthy for the {corridor.name}. Three goblins get spawned in their place.\n"
             )
             corridor.add_to_corridor(create_goblin(character.weapon))
             corridor.add_to_corridor(create_goblin(get_iron_weapon()))
@@ -146,5 +143,5 @@ def deal_with_challenge(challenge, character, corridor):
     return messages
 
 
-def epilogue():
-    return "\nAfter so much blood, The {corridor.name}'s thirst is sated, it starts crumbling and is reduced to dust in just a few minutes.\n"
+def epilogue(corridor):
+    return f"After so much blood, The {corridor.name}'s thirst is sated, it starts crumbling and is reduced to dust in just a few minutes.\n"
