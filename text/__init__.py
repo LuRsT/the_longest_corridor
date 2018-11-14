@@ -25,7 +25,7 @@ def get_word_from_corpora(corpora_name):
 
 def intro(item):
     rules = {
-        "introduction": "For years the corridor remained unexplored, until it was found out, that it held the precious '#item#', from them on, countless adventurers ventured into the depths of the corridor, looking for fame and fortune.",
+        "introduction": "For years the {corridor.name} remained unexplored, until it was found out, that it held the precious '#item#', from them on, countless adventurers ventured into the depths of the {corridor.name}, looking for fame and fortune.",
         "item": str(item),
     }
     return get_str_from_rules(rules, "#introduction#")
@@ -45,7 +45,7 @@ def run_corridor(corridor):
         msgs.append(character.intro())
 
         msgs.append(
-            f"{character.name} slowly steps into the dark corridor to start their walk...\n"
+            f"{character.name} slowly steps into the dark {corridor.name} to start their walk...\n"
         )
 
         for challenge in corridor:
@@ -54,8 +54,8 @@ def run_corridor(corridor):
             if not character.is_alive:
                 break
 
-        corridor.shuffle()
-        msgs.append("The corridor is shuffled and all creatures are ressurected.\n")
+        corridor.update()
+        msgs.append(f"The {corridor.name} is shuffled and all creatures are ressurected.\n")
 
     return messages
 
@@ -63,7 +63,7 @@ def run_corridor(corridor):
 def deal_with_challenge(challenge, character, corridor):
     from models.characters import Character, create_goblin, create_orc
 
-    messages = [f"{character.name} takes a few more steps in the dark corridor\n"]
+    messages = [f"{character.name} takes a few more steps in the dark {corridor.name}\n"]
     if isinstance(challenge, Character):
         enemy = challenge
         messages.append(
@@ -87,7 +87,7 @@ def deal_with_challenge(challenge, character, corridor):
     elif isinstance(challenge, Item):
         messages.append(f"{character.name} picks up the '{challenge}' triumphantly\n")
         messages.append(
-            f"The corridor zaps {character.name} with great might and creates:\n"
+            f"The {corridor.name} zaps {character.name} with great might and creates:\n"
         )
 
         messages.append("- One Orc with their weapon\n")
@@ -127,12 +127,12 @@ def deal_with_challenge(challenge, character, corridor):
         messages.append(f"{character.name} dies\n")
         if character.level > 2:
             messages.append(
-                f"{character.name} gets ressurected by the corridor and becomes a part of it.\n"
+                f"{character.name} gets ressurected by the {corridor.name} and becomes a part of it.\n"
             )
             corridor.add_to_corridor(character)
         else:
             messages.append(
-                f"{character.name} is not worthy for the corridor. Three goblins get spawned in their place."
+                f"{character.name} is not worthy for the {corridor}. Three goblins get spawned in their place."
             )
             corridor.add_to_corridor(create_goblin(character.weapon))
             corridor.add_to_corridor(create_goblin(get_iron_weapon()))
@@ -142,4 +142,4 @@ def deal_with_challenge(challenge, character, corridor):
 
 
 def epilogue():
-    return "\nAfter so much blood, The corridor's thirst is sated, it starts crumbling and is reduced to dust in just a few minutes.\n"
+    return "\nAfter so much blood, The {corridor.name}'s thirst is sated, it starts crumbling and is reduced to dust in just a few minutes.\n"

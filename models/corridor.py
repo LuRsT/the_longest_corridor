@@ -10,6 +10,7 @@ from text import get_word_from_corpora
 class Corridor:
     def __init__(self):
         self.item = create_item()
+        self.name = "Corridor"
 
         self.initial_creation()
         self.reset()
@@ -47,7 +48,10 @@ class Corridor:
         self.index -= 1
         return self.corridor[self.index]
 
-    def shuffle(self):
+    def update(self):
+        self._shuffle()
+
+    def _shuffle(self):
         self._ressurect_creatures()
         self._remove_things()
 
