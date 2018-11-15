@@ -1,7 +1,11 @@
-def fight(char1, char2):
-    # TODO Determine who starts
+from dragn.dice import D6
 
-    attacker, defender = char1, char2
+def fight(char1, char2):
+    if char1.dex + D6() > char2.dex + D6():
+        attacker, defender = char1, char2
+    else:
+        defender, attacker = char1, char2
+
     messages = []
     while char1.is_alive and char2.is_alive:
         result = attacker.attack(defender)
