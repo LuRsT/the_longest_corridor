@@ -97,7 +97,7 @@ def deal_with_challenge(challenge, character, corridor):
             corridor.add_to_corridor(create_orc(get_steel_weapon()))
 
     elif isinstance(challenge, Scroll):
-        messages.append(f"{character.name} finds a dusty scroll a reads it.")
+        messages.append(f"{character.name} finds a dusty scroll and reads it.")
         scroll = challenge
         scroll.apply(character)
         corridor.remove_from_corridor(scroll)

@@ -36,7 +36,7 @@ class Corridor:
         self.stuff_to_remove.append(thing)
 
     def get_history(self):
-        corridor_history = f"The f{self.name} was created by a God who laid out some creatures, a bit of food, and finally, left the {self.item}."
+        corridor_history = f"The {self.name} was created by a God who laid out some creatures, a bit of food, and finally, left the {self.item}."
         return corridor_history
 
     def __iter__(self):
