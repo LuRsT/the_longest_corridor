@@ -40,10 +40,11 @@ def run_corridor(corridor):
 
         messages[chapter] = []
         msgs = messages[chapter]
-        msgs.append(f"## Chapter #{chapter} ({character.name})")
+        msgs.append(f"# {character.name} {{#{character.name.replace(' ', '-')}}}")
 
-        msgs.append(character.intro())
-
+        msgs.append(
+            f"{character.name} is a {character.race} from a town nearby, they heard of the rumours and came to see the {corridor.name} for themselves."
+        )
         msgs.append(
             f"{character.name} slowly steps into the dark {corridor.name} to start their walk..."
         )

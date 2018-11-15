@@ -37,7 +37,6 @@ class Character:
     def resurrect(self):
         if not self.is_alive:
             self.is_zombie = True
-            self.name = "Zombie " + self.name  # TODO Better way of doing this
             self.health = self._max_health
 
     @property
@@ -79,9 +78,6 @@ class Character:
         self.health += 5
         self._max_health += 5
 
-    def intro(self):
-        return f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves."
-
     def eat(self, food):
         self.heal(food.amount)
 
@@ -100,9 +96,20 @@ class Character:
         self.health -= damage
 
     @property
+    def name_and_link(self):
+        if self.is_adventurer:
+            return f"[{self.name}](#{self.name.replace(' ', '-')})"
+        else:
+            return self.name
+
+    @property
+    def is_adventurer(self):
+        return self.race not in (ORC, GOBLIN, OGRE)
+
+    @property
     def stats(self):
         return (
-            f"{self.name}, a {self.race} wielding a {self.weapon}, "
+            f"{self.name_and_link}: a {self.race} wielding a {self.weapon}, "
             f"DEX: {self.dex} ARMOR: {self.armor} "
             f"HP: {self._max_health} LVL: {self.level}"
         )
@@ -122,16 +129,23 @@ def create_adventurer():
     return creator(get_iron_weapon())
 
 
+def _create_adventurer(race, weapon):
+    name = " ".join(
+        [get_word_from_corpora("first_names"), get_word_from_corpora("last_names")]
+    )
+    return Character(name, race, weapon)
+
+
 def _create_elf(weapon):
-    return Character(get_word_from_corpora("first_names"), ELF, weapon)
+    return _create_adventurer(ELF, weapon)
 
 
 def _create_human(weapon):
-    return Character(get_word_from_corpora("first_names"), HUMAN, weapon)
+    return _create_adventurer(HUMAN, weapon)
 
 
 def _create_dwarf(weapon):
-    return Character(get_word_from_corpora("first_names"), DWARF, weapon)
+    return _create_adventurer(DWARF, weapon)
 
 
 def create_enemy(zombie=False):

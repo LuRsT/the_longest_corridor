@@ -36,7 +36,7 @@ class Corridor:
         self.stuff_to_remove.append(thing)
 
     def get_history(self):
-        corridor_history = f"The corridor was created by a God who laid out some creatures, a bit of food, and finally, left the {self.item}"
+        corridor_history = f"The f{self.name} was created by a God who laid out some creatures, a bit of food, and finally, left the {self.item}."
         return corridor_history
 
     def __iter__(self):
@@ -129,20 +129,20 @@ class Corridor:
 
     def stats(self):
         messages = []
-        messages.append(f"\n### The {self.name} contains:\n")
+        messages.append(f"\n## The {self.name} contains:\n")
         for c in self.stuff_in_corridor:
             if isinstance(c, Character):
                 messages.append(f"- {c.stats}")
             else:
                 messages.append(f"- {c}")
 
-        messages.append("\n### Notable characters that died permanently:\n")
+        messages.append("\n## Notable characters that died permanently:\n")
         for c in self.archive:
             if c.level > 1:
-                messages.append(f"- {c.name}, a {c.race} of level {c.level}")
+                messages.append(f"- {c.name_and_link}: a {c.race} of level {c.level}")
 
         ## WEAPON STATS
-        messages.append("\n### Weapon stats\n")
+        messages.append("\n## Weapon stats\n")
         weapons = sorted(
             [c.weapon for c in self.stuff_in_corridor if isinstance(c, Character)],
             key=lambda w: w.kind,

@@ -6,12 +6,12 @@ def main():
     corridor = Corridor()
 
     with open("book/001-intro.md", "w") as intro_file:
-        intro_file.write("## Introduction\n\n")
-        intro_file.write(intro(corridor))
+        intro_file.write("# Introduction\n\n")
+        intro_file.write(intro(corridor) + "\n")
 
     with open("book/002-corridor.md", "w") as corridor_file:
-        corridor_file.write("## The corridor\n\n")
-        corridor_file.write(corridor.get_history())
+        corridor_file.write("# The corridor\n\n")
+        corridor_file.write(corridor.get_history() + "\n")
 
     messages = run_corridor(corridor)
     for chapter, run_messages in messages.items():
@@ -22,12 +22,12 @@ def main():
 
     number = chapter + 3
     with open(f"book/{str(number).zfill(3)}-epilogue.md", "w") as epilogue_file:
-        epilogue_file.write("## Epilogue\n\n")
+        epilogue_file.write("# Epilogue\n\n")
         epilogue_file.write(epilogue(corridor) + "\n\n")
 
     number += 1
     with open(f"book/{str(number).zfill(3)}-appendix.md", "w") as appendix_file:
-        appendix_file.write("## Appendix\n")
+        appendix_file.write("# Appendix\n")
         for s in corridor.stats():
             appendix_file.write(s + "\n")
 
