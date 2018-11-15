@@ -52,16 +52,16 @@ class Corridor:
         messages = []
         if self.name != "tomb" and self._get_number_of_zombies() > 5:
             messages.append(
-                f"The {self.name} becomes a tomb. It is shuffled and all creatures are ressurected.\n"
+                f"The {self.name} becomes a tomb. It is shuffled and all creatures are ressurected."
             )
             self.name = "tomb"
-            messages.append("Five zombies are added.\n")
+            messages.append("Five zombies are added.")
             self._add_zombies(5)
         else:
             messages.append(
-                f"The {self.name} is shuffled and all creatures are ressurected.\n"
+                f"The {self.name} is shuffled and all creatures are ressurected."
             )
-            messages.append("Two scrolls are added.\n")
+            messages.append("Two scrolls are added.")
             self._add_scrolls(2)
         self._shuffle()
         return messages
@@ -129,20 +129,20 @@ class Corridor:
 
     def stats(self):
         messages = []
-        messages.append(f"### The {self.name} contains:\n\n")
+        messages.append(f"\n### The {self.name} contains:\n")
         for c in self.stuff_in_corridor:
             if isinstance(c, Character):
-                messages.append(f"- {c.stats}\n")
+                messages.append(f"- {c.stats}")
             else:
-                messages.append(f"- {c}\n")
+                messages.append(f"- {c}")
 
-        messages.append("### Notable characters that died permanently:\n")
+        messages.append("\n### Notable characters that died permanently:\n")
         for c in self.archive:
             if c.level > 1:
-                messages.append(f"- {c.name}, a {c.race} of level {c.level}\n")
+                messages.append(f"- {c.name}, a {c.race} of level {c.level}")
 
         ## WEAPON STATS
-        messages.append("\n### Weapon stats\n\n")
+        messages.append("\n### Weapon stats\n")
         weapons = sorted(
             [c.weapon for c in self.stuff_in_corridor if isinstance(c, Character)],
             key=lambda w: w.kind,
@@ -150,7 +150,7 @@ class Corridor:
         weapons.extend([w for w in self.stuff_in_corridor if isinstance(w, Weapon)])
         weapons = filter(lambda w: bool(w.kills), weapons)
         for w in weapons:
-            messages.append(f"- {w} killed: {w.kills}\n")
+            messages.append(f"- {w} killed: {w.kills}")
 
         return messages
 

@@ -80,7 +80,7 @@ class Character:
         self._max_health += 5
 
     def intro(self):
-        return f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves.\n"
+        return f"{self.name} is a {self.race} from a town nearby, they heard of the rumours and came to see the corridor for themselves."
 
     def eat(self, food):
         self.heal(food.amount)

@@ -40,12 +40,12 @@ def run_corridor(corridor):
 
         messages[chapter] = []
         msgs = messages[chapter]
-        msgs.append(f"\n## Chapter #{chapter} ({character.name})\n")
+        msgs.append(f"## Chapter #{chapter} ({character.name})")
 
         msgs.append(character.intro())
 
         msgs.append(
-            f"{character.name} slowly steps into the dark {corridor.name} to start their walk...\n"
+            f"{character.name} slowly steps into the dark {corridor.name} to start their walk..."
         )
 
         for challenge in corridor:
@@ -62,20 +62,18 @@ def run_corridor(corridor):
 def deal_with_challenge(challenge, character, corridor):
     from models.characters import Character, create_goblin, create_orc
 
-    messages = [
-        f"{character.name} takes a few more steps in the dark {corridor.name}\n"
-    ]
+    messages = [f"{character.name} takes a few more steps in the dark {corridor.name}"]
     if isinstance(challenge, Character):
         enemy = challenge
         messages.append(
-            f"{character.name} finds {enemy.name}, a {enemy.race} and get's ready for a fight.\n"
+            f"{character.name} finds {enemy.name}, a {enemy.race} and get's ready for a fight."
         )
 
         character, enemy, fight_messages = fight(character, enemy)
         messages.extend(fight_messages)
 
         if not enemy.is_alive:
-            messages.append(f"{enemy.name} dies\n")
+            messages.append(f"{enemy.name} dies")
             old_weapon = character.weapon
 
             equiped = character.loot(enemy.weapon)
@@ -86,55 +84,55 @@ def deal_with_challenge(challenge, character, corridor):
                 enemy.weapon = old_weapon
 
     elif isinstance(challenge, Item):
-        messages.append(f"{character.name} picks up the '{challenge}' triumphantly\n")
+        messages.append(f"{character.name} picks up the '{challenge}' triumphantly")
         messages.append(
-            f"The {corridor.name} zaps {character.name} with great might and creates:\n"
+            f"The {corridor.name} zaps {character.name} with great might and creates:"
         )
 
-        messages.append("- One Orc with their weapon\n")
+        messages.append("- One Orc with their weapon")
         corridor.add_to_corridor(create_orc(character.weapon))
         for _ in range(character.level):
-            messages.append("- an Orc with a stronger weapon\n")
+            messages.append("- an Orc with a stronger weapon")
             corridor.add_to_corridor(create_orc(get_steel_weapon()))
 
     elif isinstance(challenge, Scroll):
-        messages.append(f"{character.name} finds a dusty scroll a reads it.\n")
+        messages.append(f"{character.name} finds a dusty scroll a reads it.")
         scroll = challenge
         scroll.apply(character)
         corridor.remove_from_corridor(scroll)
         messages.append(
-            f"...shortly after, the scroll crumbles into dust, it was a {scroll.name}\n"
+            f"...shortly after, the scroll crumbles into dust, it was a {scroll.name}"
         )
 
     elif isinstance(challenge, Food):
-        messages.append(f"{character.name} finds a {challenge} and gobbles it down.\n")
+        messages.append(f"{character.name} finds a {challenge} and gobbles it down.")
         character.eat(challenge)
 
     elif isinstance(challenge, Weapon):
         weapon = challenge
-        messages.append(f"{character.name} finds a {weapon}.\n")
+        messages.append(f"{character.name} finds a {weapon}.")
 
         old_weapon = character.weapon
         equiped = character.loot(challenge)
         if equiped:
-            messages.append(f"{character.name} equips {weapon}\n")
+            messages.append(f"{character.name} equips {weapon}")
             corridor.add_to_corridor(old_weapon)
             corridor.remove_from_corridor(weapon)
         else:
             messages.append(
-                f"After some inspection, {character.name} decides not to take {weapon}\n"
+                f"After some inspection, {character.name} decides not to take {weapon}"
             )
 
     if not character.is_alive:
-        messages.append(f"{character.name} dies\n")
+        messages.append(f"{character.name} dies")
         if character.level > 2:
             messages.append(
-                f"{character.name} gets ressurected by the {corridor.name} and becomes a part of it.\n"
+                f"{character.name} gets ressurected by the {corridor.name} and becomes a part of it."
             )
             corridor.add_to_corridor(character)
         else:
             messages.append(
-                f"{character.name} is not worthy for the {corridor.name}. Three goblins get spawned in their place.\n"
+                f"{character.name} is not worthy for the {corridor.name}. Three goblins get spawned in their place."
             )
             corridor.add_to_corridor(create_goblin(character.weapon))
             corridor.add_to_corridor(create_goblin(get_iron_weapon()))
@@ -144,4 +142,4 @@ def deal_with_challenge(challenge, character, corridor):
 
 
 def epilogue(corridor):
-    return f"After so much blood, The {corridor.name}'s thirst is sated, it starts crumbling and is reduced to dust in just a few minutes.\n"
+    return f"After so much blood, The {corridor.name}'s thirst is sated, it starts crumbling and is reduced to dust in just a few minutes."
