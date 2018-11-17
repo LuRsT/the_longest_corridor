@@ -25,21 +25,36 @@ def get_word_from_corpora(corpora_name):
 
 def intro(corridor):
     rules = {
-        "introduction": f"For years the {corridor.name} remained unexplored, until it was found out, that it held the precious '#item#', from them on, countless adventurers ventured into the depths of the {corridor.name}, looking for fame and fortune.",
-        "item": str(corridor.item),
+        "introduction": f"For years the {corridor.name} remained unexplored, until it was found out that it held the precious '#item#', from them on, countless adventurers ventured into the depths of the {corridor.name}, looking for fame and fortune.",
+        "item": str(corridor.boss),
     }
     return get_str_from_rules(rules, "#introduction#")
 
 
 def run_corridor(corridor):
-    from models.characters import create_adventurer
+    from models.characters import create_adventurer, Character
 
     messages = {}
     for chapter in range(1, 31):
-        character = create_adventurer()
-
         messages[chapter] = []
         msgs = messages[chapter]
+
+        # If the corridor has changed, this chapter will be about it
+        if corridor.has_changed:
+            msgs.append(f"# The {corridor.name}")
+            msgs.append(
+                f"The {corridor.name} contains a {corridor.boss} in the end of it."
+            )
+
+            msgs.append(f"The {corridor.name} also contains:")
+            for c in corridor.stuff_in_corridor:
+                if isinstance(c, Character):
+                    msgs.append(f"- {c}")
+            corridor.has_changed = False
+            continue
+
+        character = create_adventurer()
+
         msgs.append(f"# {character.name} {{#{character.name.replace(' ', '-')}}}")
 
         msgs.append(
@@ -61,7 +76,7 @@ def run_corridor(corridor):
 
 
 def deal_with_challenge(challenge, character, corridor):
-    from models.characters import Character, create_goblin, create_orc
+    from models.characters import Character, create_goblin
 
     messages = [f"{character.name} takes a few more steps in the dark {corridor.name}"]
     if isinstance(challenge, Character):
@@ -85,16 +100,14 @@ def deal_with_challenge(challenge, character, corridor):
                 enemy.weapon = old_weapon
 
     elif isinstance(challenge, Item):
-        messages.append(f"{character.name} picks up the '{challenge}' triumphantly")
+        item = challenge
+        messages.append(f"{character.name} picks up the '{item}' triumphantly.")
         messages.append(
-            f"The {corridor.name} zaps {character.name} with great might and creates:"
+            f"The {character.name} gets corrupted by {item} and becomes the {corridor.name} master."
         )
 
-        messages.append("- One Orc with their weapon")
-        corridor.add_to_corridor(create_orc(character.weapon))
-        for _ in range(character.level):
-            messages.append("- an Orc with a stronger weapon")
-            corridor.add_to_corridor(create_orc(get_steel_weapon()))
+        corridor.update_boss(character)
+        messages.extend(dm_creates_creatures(corridor))
 
     elif isinstance(challenge, Scroll):
         messages.append(f"{character.name} finds a dusty scroll and reads it.")
@@ -139,6 +152,25 @@ def deal_with_challenge(challenge, character, corridor):
             corridor.add_to_corridor(create_goblin(get_iron_weapon()))
             corridor.add_to_corridor(create_goblin(get_iron_weapon()))
 
+    elif challenge == corridor.boss:
+        messages.append(f"The {character.name} becomes the new {corridor.name} master.")
+
+        corridor.update_boss(character)
+        messages.extend(dm_creates_creatures(corridor))
+
+    return messages
+
+
+def dm_creates_creatures(corridor):
+    from models.characters import create_orc
+
+    messages = []
+    messages.append(f"{corridor.boss.name} calls forth the help of more creatures.")
+
+    for _ in range(corridor.boss.level):
+        creature = create_orc(get_steel_weapon())
+        messages.append(f"- {creature.race} yielding a {creature.weapon}")
+        corridor.add_to_corridor(creature)
     return messages
 
 

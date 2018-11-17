@@ -3,7 +3,7 @@ import random
 from dragn.dice import D20
 
 from dataclasses import dataclass
-from models.weapons import Weapon, get_iron_weapon
+from models.weapons import Weapon, get_iron_weapon, get_mithril_weapon
 from text import get_word_from_corpora
 
 
@@ -38,6 +38,9 @@ class Character:
         if not self.is_alive:
             self.is_zombie = True
             self.health = self._max_health
+
+    def __str__(self):
+        return self.name
 
     @property
     def is_alive(self):
@@ -126,7 +129,7 @@ OGRE = Race("Ogre", 30, 14, 7)
 
 def create_adventurer():
     creator = random.choice([_create_dwarf, _create_human, _create_elf])
-    return creator(get_iron_weapon())
+    return creator(random.choice([get_iron_weapon(), get_mithril_weapon()]))
 
 
 def _create_adventurer(race, weapon):
@@ -149,7 +152,7 @@ def _create_dwarf(weapon):
 
 
 def create_enemy(zombie=False):
-    enemy = random.choice([create_orc, create_goblin, _create_ogre])
+    enemy = random.choice([create_orc, create_goblin])
     return enemy(get_iron_weapon(), zombie)
 
 

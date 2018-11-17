@@ -8,7 +8,7 @@ from text import get_word_from_corpora
 
 class Corridor:
     def __init__(self):
-        self.item = create_item()
+        self.boss = create_item()
         self.name = "corridor"
 
         self.initial_creation()
@@ -16,6 +16,7 @@ class Corridor:
         self.index = len(self.corridor)
         self.stuff_to_remove = []
         self.archive = []
+        self.has_changed = True
 
     def initial_creation(self):
         self.stuff_in_corridor = []
@@ -27,7 +28,7 @@ class Corridor:
 
     def reset(self):
         random.shuffle(self.stuff_in_corridor)
-        self.corridor = [*self.stuff_in_corridor, self.item][::-1]
+        self.corridor = [*self.stuff_in_corridor, self.boss][::-1]
 
     def add_to_corridor(self, thing):
         self.stuff_in_corridor.append(thing)
@@ -44,13 +45,19 @@ class Corridor:
         self.index -= 1
         return self.corridor[self.index]
 
+    def update_boss(self, new_boss):
+        new_boss.heal(100)
+        self.boss = new_boss
+        self.has_changed = True
+
     def update(self):
         messages = []
-        if self.name != "tomb" and self._get_number_of_zombies() > 5:
+        if self.has_changed:
+            new_name = "tomb"
             messages.append(
-                f"The {self.name} becomes a tomb. It is shuffled and all creatures are ressurected."
+                f"The {self.name} becomes a {new_name}. It is shuffled and all creatures are ressurected."
             )
-            self.name = "tomb"
+            self.name = new_name
             messages.append("Five zombies are added.")
             self._add_zombies(5)
         else:
@@ -161,6 +168,6 @@ def create_food():
 def create_scroll():
     scrolls = [
         Scroll("Scroll of healing", lambda c: c.heal(5)),
-        Scroll("Scroll of pain", lambda c: c.take_damage(5)),
+        #    Scroll("Scroll of pain", lambda c: c.take_damage(5)),
     ]
     return random.choice(scrolls)
