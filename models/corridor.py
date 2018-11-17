@@ -50,10 +50,14 @@ class Corridor:
         self.boss = new_boss
         self.has_changed = True
 
+    def new_corridor_name(self):
+        possible_names = ['corridor', 'tomb', 'crypt', 'dungeon', 'lair']
+        return random.choice([n for n in possible_names if n != self.name])
+
     def update(self):
         messages = []
         if self.has_changed:
-            new_name = "tomb"
+            new_name = self.new_corridor_name()
             messages.append(
                 f"The {self.name} becomes a {new_name}. It is shuffled and all creatures are ressurected."
             )

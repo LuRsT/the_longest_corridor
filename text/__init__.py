@@ -174,4 +174,4 @@ def dm_creates_creatures(corridor):
 
 
 def epilogue(corridor):
-    return f"After so much blood, The {corridor.name}'s thirst is sated, it starts crumbling and is reduced to dust in just a few minutes."
+    return f"This is the story of {corridor.name}. Time will tell when the next adventurer dares to enter it."
