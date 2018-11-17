@@ -49,7 +49,7 @@ def run_corridor(corridor):
             msgs.append(f"The {corridor.name} also contains:")
             for c in corridor.stuff_in_corridor:
                 if isinstance(c, Character):
-                    msgs.append(f"- {c}")
+                    msgs.append(f"- {c.full_description}")
             corridor.has_changed = False
             continue
 
@@ -137,6 +137,7 @@ def deal_with_challenge(challenge, character, corridor):
                 f"After some inspection, {character.name} decides not to take {weapon}"
             )
 
+    #### #### #### #### ####
     if not character.is_alive:
         messages.append(f"{character.name} dies")
         if character.level > 2:
@@ -169,7 +170,7 @@ def dm_creates_creatures(corridor):
 
     for _ in range(corridor.boss.level):
         creature = create_orc(get_steel_weapon())
-        messages.append(f"- {creature.race} yielding a {creature.weapon}")
+        messages.append(f"- {creature.full_description}")
         corridor.add_to_corridor(creature)
     return messages
 

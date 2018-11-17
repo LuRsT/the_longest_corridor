@@ -22,7 +22,7 @@ class Corridor:
         self.stuff_in_corridor = []
 
         self._add_treasure(1)
-        self._add_enemies(15)
+        self._add_enemies(5)
         self._add_food(3)
         self._add_scrolls(2)
 

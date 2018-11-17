@@ -43,6 +43,11 @@ class Character:
         return self.name
 
     @property
+    def full_description(self):
+        zombie = "zombie " if self.is_zombie else ""
+        return f"{self.name} is a {zombie}{self.race}, yielding a {self.weapon}."
+
+    @property
     def is_alive(self):
         if self.health <= 0:
             return False
@@ -129,7 +134,7 @@ OGRE = Race("Ogre", 30, 14, 7)
 
 def create_adventurer():
     creator = random.choice([_create_dwarf, _create_human, _create_elf])
-    return creator(random.choice([get_iron_weapon(), get_mithril_weapon()]))
+    return creator(get_iron_weapon())
 
 
 def _create_adventurer(race, weapon):
