@@ -19,9 +19,11 @@ class Item:
 class Scroll:
     name: str
     action: Any
+    description: str
 
     def apply(self, character):
         self.action(character)
+        return self.description.format(character.name)
 
     def __str__(self):
         return f"{self.name}"

@@ -167,7 +167,10 @@ def create_food():
 
 def create_scroll():
     scrolls = [
-        Scroll("Scroll of healing", lambda c: c.heal(5)),
-        #    Scroll("Scroll of pain", lambda c: c.take_damage(5)),
+        Scroll("Scroll of healing", lambda c: c.heal(5), "{} feels better."),
+        Scroll("Scroll of pain", lambda c: c.take_damage(5), "{} feels awful."),
+        Scroll(
+            "Scroll of uselessness", lambda c: None, "100 butterflies suddenly appear."
+        ),
     ]
     return random.choice(scrolls)

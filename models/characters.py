@@ -33,6 +33,9 @@ class Character:
 
         self._max_health = self.health
         self.is_zombie = False
+        self.characteristics = [
+            get_word_from_corpora("characteristics") for _ in range(3)
+        ]
 
     def resurrect(self):
         if not self.is_alive:
@@ -45,7 +48,10 @@ class Character:
     @property
     def full_description(self):
         zombie = "zombie " if self.is_zombie else ""
-        return f"{self.name} is a {zombie}{self.race}, yielding a {self.weapon}."
+        characteristics = (
+            ", ".join(self.characteristics[:2]) + " and " + self.characteristics[-1]
+        )
+        return f"{self.name} is a {zombie}{self.race}, yielding a {self.weapon}. They are {characteristics}"
 
     @property
     def is_alive(self):
@@ -68,7 +74,7 @@ class Character:
         return self.maybe_level_up()
 
     def maybe_level_up(self):
-        lvl_by_xp = {2: 50, 3: 100, 4: 200, 5: 400}
+        lvl_by_xp = {2: 50, 3: 100, 4: 200, 5: 400, 6: 600, 7: 830, 8: 1000}
         for lvl, xp in lvl_by_xp.items():
             if self.level >= lvl:
                 continue

@@ -112,11 +112,9 @@ def deal_with_challenge(challenge, character, corridor):
     elif isinstance(challenge, Scroll):
         messages.append(f"{character.name} finds a dusty scroll and reads it.")
         scroll = challenge
-        scroll.apply(character)
+        messages.append(scroll.apply(character))
         corridor.remove_from_corridor(scroll)
-        messages.append(
-            f"...shortly after, the scroll crumbles into dust, it was a {scroll.name}"
-        )
+        messages.append(f"...the scroll crumbles into dust")
 
     elif isinstance(challenge, Food):
         messages.append(f"{character.name} finds a {challenge} and gobbles it down.")
