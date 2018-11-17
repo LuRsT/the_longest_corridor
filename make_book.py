@@ -7,15 +7,17 @@ def main():
 
     with open("book/001-intro.md", "w") as intro_file:
         intro_file.write("# Introduction\n\n")
-        intro_file.write(intro(corridor) + "\n")
+        intro_file.write(intro(corridor) + "\n\n")
 
-    with open("book/002-corridor.md", "w") as corridor_file:
-        corridor_file.write("# The corridor\n\n")
-        corridor_file.write(corridor.get_history() + "\n")
+        corridor_history = (
+            f"Nobody knows who built the {corridor.name}, they only know that it's dangerous, "
+            "that it probably is populated by some creatures and possibly treasure."
+        )
+        intro_file.write(corridor_history + "\n")
 
     messages = run_corridor(corridor)
     for chapter, run_messages in messages.items():
-        number = str(chapter + 2).zfill(3)
+        number = str(chapter + 1).zfill(3)
         with open(f"book/{number}-run.md", "w") as run_file:
             for m in run_messages:
                 run_file.write(m + "\n\n")

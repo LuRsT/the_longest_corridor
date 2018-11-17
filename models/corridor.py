@@ -35,10 +35,6 @@ class Corridor:
     def remove_from_corridor(self, thing):
         self.stuff_to_remove.append(thing)
 
-    def get_history(self):
-        corridor_history = f"The {self.name} was created by a God who laid out some creatures, a bit of food, and finally, left the {self.item}."
-        return corridor_history
-
     def __iter__(self):
         return self
 
@@ -118,7 +114,6 @@ class Corridor:
                     self.stuff_to_remove.append(s)
 
         for s in self.stuff_to_remove:
-            self.stuff_in_corridor.remove(s)
             if isinstance(s, Character):
                 self.archive.append(s)
 

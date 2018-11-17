@@ -1,5 +1,6 @@
 from dragn.dice import D6
 
+
 def fight(char1, char2):
     if char1.dex + D6() > char2.dex + D6():
         attacker, defender = char1, char2
