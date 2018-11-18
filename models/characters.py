@@ -1,6 +1,6 @@
 import random
 
-from dragn.dice import D20
+from dragn.dice import D4, D20
 
 from dataclasses import dataclass
 from models.weapons import Weapon, get_iron_weapon, get_mithril_weapon
@@ -25,11 +25,14 @@ class Character:
     weapon: Weapon
     exp: int = 0
     level: int = 1
+    bonus_health: int = 0
+    bonus_dex: int = 0
+    bonus_armor: int = 0
 
     def __post_init__(self):
-        self.health = self.race.health
-        self.armor = self.race.armor
-        self.dex = self.race.dex
+        self.health = self.race.health + self.bonus_health
+        self.armor = self.race.armor + self.bonus_armor
+        self.dex = self.race.dex + self.bonus_dex
 
         self._max_health = self.health
         self.is_zombie = False
@@ -147,7 +150,9 @@ def _create_adventurer(race, weapon):
     name = " ".join(
         [get_word_from_corpora("first_names"), get_word_from_corpora("last_names")]
     )
-    return Character(name, race, weapon)
+    return Character(
+        name, race, weapon, bonus_health=D4(), bonus_armor=D4(), bonus_dex=D4()
+    )
 
 
 def _create_elf(weapon):

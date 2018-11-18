@@ -51,7 +51,7 @@ class Corridor:
         self.has_changed = True
 
     def new_corridor_name(self):
-        possible_names = ['corridor', 'tomb', 'crypt', 'dungeon', 'lair']
+        possible_names = ["corridor", "tomb", "crypt", "dungeon", "lair"]
         return random.choice([n for n in possible_names if n != self.name])
 
     def update(self):
@@ -141,6 +141,7 @@ class Corridor:
                 messages.append(f"- {c.stats}")
             else:
                 messages.append(f"- {c}")
+        messages.append(f"- {self.boss.stats}")
 
         messages.append("\n## Notable characters that died permanently:\n")
         for c in self.archive:
