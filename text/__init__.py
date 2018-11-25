@@ -8,6 +8,8 @@ from models.items import Food, Item, Scroll
 from models.weapons import get_iron_weapon, Weapon, get_steel_weapon
 
 
+NUMBER_OF_RUNS = 10
+
 def _get_corpora(corpora_name):
     with open(f"corpora/{corpora_name}.txt", "r") as corpora_file:
         return [n.strip() for n in corpora_file.readlines()]
@@ -35,7 +37,7 @@ def run_corridor(corridor):
     from models.characters import create_adventurer, Character
 
     messages = {}
-    for chapter in range(1, 31):
+    for chapter in range(1, NUMBER_OF_RUNS + 1):
         messages[chapter] = []
         msgs = messages[chapter]
 
@@ -174,4 +176,4 @@ def dm_creates_creatures(corridor):
 
 
 def epilogue(corridor):
-    return f"This is the story of {corridor.name}. Time will tell when the next adventurer dares to enter it."
+    return f"This is the story of the {corridor.name}. Time will tell when the next adventurer dares to enter it."

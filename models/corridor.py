@@ -46,13 +46,29 @@ class Corridor:
         return self.corridor[self.index]
 
     def update_boss(self, new_boss):
-        new_boss.heal(100)
+        new_boss.take_damage(new_boss.health)
+        new_boss.resurrect()
         self.boss = new_boss
         self.has_changed = True
 
     def new_corridor_name(self):
         possible_names = ["corridor", "tomb", "crypt", "dungeon", "lair"]
         return random.choice([n for n in possible_names if n != self.name])
+
+    def update_for(self, name):
+        self.name = name
+        messages = []
+        if name == "crypt":
+            messages.append("Five zombies are added.")
+            self._add_zombies(5)
+        elif name == "lair":
+            messages.append("One Ogre appears.")
+            ogre = create_ogre()
+            self.stuff_in_corridor.append(ogre)
+        else:
+            messages.append("Five zombies are added.")
+            self._add_zombies(5)
+        return messages
 
     def update(self):
         messages = []
@@ -61,9 +77,7 @@ class Corridor:
             messages.append(
                 f"The {self.name} becomes a {new_name}. It is shuffled and all creatures are ressurected."
             )
-            self.name = new_name
-            messages.append("Five zombies are added.")
-            self._add_zombies(5)
+            messages.extend(self.update_for(new_name))
         else:
             messages.append(
                 f"The {self.name} is shuffled and all creatures are ressurected."

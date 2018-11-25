@@ -42,8 +42,13 @@ class Character:
 
     def resurrect(self):
         if not self.is_alive:
-            self.is_zombie = True
+            self.make_zombie()
             self.health = self._max_health
+
+    def make_zombie(self):
+        self.is_zombie = True
+        self.dex -= 4
+        self.armor -= 4
 
     def __str__(self):
         return self.name
@@ -125,8 +130,9 @@ class Character:
 
     @property
     def stats(self):
+        zombie = "zombie " if self.is_zombie else ""
         return (
-            f"{self.name_and_link}: a {self.race} wielding a {self.weapon}, "
+            f"{self.name_and_link}: a {zombie}{self.race} yielding a {self.weapon}, "
             f"DEX: {self.dex} ARMOR: {self.armor} "
             f"HP: {self._max_health} LVL: {self.level}"
         )
@@ -176,7 +182,7 @@ def create_orc(weapon, zombie=False):
     return _create_enemy(weapon, ORC, zombie)
 
 
-def _create_ogre(weapon, zombie=False):
+def create_ogre(weapon, zombie=False):
     return _create_enemy(weapon, OGRE, zombie)
 
 
@@ -187,7 +193,7 @@ def create_goblin(weapon, zombie=False):
 def _create_enemy(weapon, race, zombie):
     character = Character(create_enemy_name(), race, weapon)
     if zombie:
-        character.is_zombie = True
+        character.make_zombie()
     return character
 
 
