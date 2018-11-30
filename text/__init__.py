@@ -8,7 +8,8 @@ from models.items import Food, Item, Scroll
 from models.weapons import get_iron_weapon, Weapon, get_steel_weapon
 
 
-NUMBER_OF_RUNS = 10
+NUMBER_OF_RUNS = 500
+
 
 def _get_corpora(corpora_name):
     with open(f"corpora/{corpora_name}.txt", "r") as corpora_file:
@@ -59,9 +60,15 @@ def run_corridor(corridor):
 
         msgs.append(f"# {character.name} {{#{character.name.replace(' ', '-')}}}")
 
-        msgs.append(
-            f"{character.name} is a {character.race} from a town nearby, they heard of the rumours and came to see the {corridor.name} for themselves."
-        )
+        rules = {
+            "introduction": f"{character.name} is a {character.race} #backstory#, they heard of the rumours and came to see the {corridor.name} for themselves.",
+            "backstory": [
+                "from a town nearby",
+                "looking for fame and fortune",
+                "looking for adventure",
+            ],
+        }
+        msgs.append(get_str_from_rules(rules, "#introduction#"))
         msgs.append(
             f"{character.name} slowly steps into the dark {corridor.name} to start their walk..."
         )
@@ -87,8 +94,8 @@ def deal_with_challenge(challenge, character, corridor):
             f"{character.name} finds {enemy.name}, a {enemy.race} and get's ready for a fight."
         )
 
-        character, enemy, fight_messages = fight(character, enemy)
-        messages.extend(fight_messages)
+        character, enemy, fight_message = fight(character, enemy)
+        messages.append(fight_message)
 
         if not enemy.is_alive:
             messages.append(f"{enemy.name} dies")
@@ -150,8 +157,8 @@ def deal_with_challenge(challenge, character, corridor):
                 f"{character.name} is not worthy for the {corridor.name}. Three goblins get spawned in their place."
             )
             corridor.add_to_corridor(create_goblin(character.weapon))
-            corridor.add_to_corridor(create_goblin(get_iron_weapon()))
-            corridor.add_to_corridor(create_goblin(get_iron_weapon()))
+            corridor.add_to_corridor(create_goblin())
+            corridor.add_to_corridor(create_goblin())
 
     elif challenge == corridor.boss:
         messages.append(f"The {character.name} becomes the new {corridor.name} master.")

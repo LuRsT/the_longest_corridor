@@ -1,6 +1,6 @@
 import random
 
-from models.characters import Character, create_enemy
+from models.characters import Character, create_enemy, create_goblin, create_ogre
 from models.items import Food, Item, Scroll
 from models.weapons import Weapon, get_mithril_weapon
 from text import get_word_from_corpora
@@ -65,6 +65,15 @@ class Corridor:
             messages.append("One Ogre appears.")
             ogre = create_ogre()
             self.stuff_in_corridor.append(ogre)
+        elif name == "corridor":
+            messages.append("Five different monsters show up to visit.")
+            ogre = create_ogre()
+            monsters = [create_enemy() for _ in range(5)]
+            self.stuff_in_corridor.extend(monsters)
+        elif name == "dungeon":
+            messages.append("A group of goblins take camp in the dungeon.")
+            monsters = [create_goblin() for _ in range(8)]
+            self.stuff_in_corridor.extend(monsters)
         else:
             messages.append("Five zombies are added.")
             self._add_zombies(5)

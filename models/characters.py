@@ -156,6 +156,10 @@ def _create_adventurer(race, weapon):
     name = " ".join(
         [get_word_from_corpora("first_names"), get_word_from_corpora("last_names")]
     )
+    if random.choice([True, False]):
+        # May get a second last name
+        name += get_word_from_corpora("last_names")
+
     return Character(
         name, race, weapon, bonus_health=D4(), bonus_armor=D4(), bonus_dex=D4()
     )
@@ -182,11 +186,14 @@ def create_orc(weapon, zombie=False):
     return _create_enemy(weapon, ORC, zombie)
 
 
-def create_ogre(weapon, zombie=False):
-    return _create_enemy(weapon, OGRE, zombie)
+def create_ogre():
+    weapon = get_iron_weapon()
+    return _create_enemy(weapon, OGRE, False)
 
 
-def create_goblin(weapon, zombie=False):
+def create_goblin(weapon=None, zombie=False):
+    if not weapon:
+        weapon = get_iron_weapon()
     return _create_enemy(weapon, GOBLIN, zombie)
 
 

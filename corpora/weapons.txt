@@ -1,0 +1,11 @@
+sword
+spear
+axe
+greatsword
+greataxe
+battle axe
+halberd
+dagger
+knife
+mace
+morningstar

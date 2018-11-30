@@ -80,10 +80,10 @@ MITHRIL = Material("Mithril", 1, 8)
 
 
 WEAPON_KINDS = [
-    WeaponKind("Sword", D6, 1, ["slashes"]),
-    WeaponKind("Greatsword", D20, 6, ["slashes"]),
-    WeaponKind("Mace", D12, 4, ["whacks"]),
-    WeaponKind("Halberd", D8, 4, ["slices"]),
+    WeaponKind("Sword", D6, 1, ["slash", "takes a chunk out of"]),
+    WeaponKind("Greatsword", D20, 6, ["slash", "tore"]),
+    WeaponKind("Mace", D12, 4, ["whack", "smack"]),
+    WeaponKind("Halberd", D8, 4, ["slice", "poke"]),
 ]
 
 
